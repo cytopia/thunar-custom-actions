@@ -1,4 +1,9 @@
-thunar-custom-actions
+Thunar Custom Actions
 =====================
 
-Custom actions for Thunar File manager
+## Multimedia
+
+
+## Security
+
+## Uploads
