@@ -1,6 +1,14 @@
 Thunar Custom Actions
 =====================
 
+The following actions can also be used in nautilus or any other file manager that supports custom actions.
+I personally prefer thunar because of speed.
+
+
+If any of the actions don't work anymore (especially the upload ones), please report here, so I can fix it.
+
+
+
 ## Multimedia
 
 ### ![Thunar Convert to PNG](/icons/thunar-convert-to-png.png) [thunar-convert-to-png.sh](thunar-convert-to-png.sh)
