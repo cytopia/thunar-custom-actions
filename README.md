@@ -3,7 +3,7 @@ Thunar Custom Actions
 
 ## Multimedia
 
-### thunar-convert-to-png.sh
+### ![Thunar Convert to PNG](/icons/thunar-convert-to-png.png) thunar-convert-to-png.sh
 This action converts any image file to a png image.
 
 
