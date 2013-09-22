@@ -1,7 +1,7 @@
 #!/bin/sh
 #
 # Get media information about audio/video files.
-# 
+#
 # * Put this file into your home binary dir: ~/bin/
 # * Make it executable: chmod +x
 #
@@ -15,7 +15,7 @@
 # Thunar Integration
 # ------------------------
 #
-#   Command:      thunar-media-info.sh -f %f -t %n
+#   Command:      ~/bin/thunar-media-info.sh -f %f -t %n
 #   File Pattern: *
 #   Appear On:    Audio Files, Video Files
 #

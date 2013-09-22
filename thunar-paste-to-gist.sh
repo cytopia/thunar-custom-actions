@@ -1,7 +1,7 @@
 #!/bin/sh
 #
 # Paste a file directly to gist.
-# 
+#
 # * Put this file into your home binary dir: ~/bin/
 # * Make it executable: chmod +x
 #
@@ -15,27 +15,9 @@
 # Thunar Integration
 # ------------------------
 #
-#   Command:      thunar-paste-to-gist.sh -f %f
+#   Command:      ~/bin/thunar-paste-to-gist.sh -f %f
 #   File Pattern: *
 #   Appear On:    Text Files
-#
-#
-# Usage:
-# -------------------------
-#   thunar-paste-to-gist.sh -f <filename> [-w width(int)] [-h height(int)] [-t window-title]
-#
-#     required:
-#      -f    input filename
-#
-#     optional:
-#      -w    (gui) width of window (e.g.: -w 800)
-#            default is 800
-#
-#      -h    (gui) height of window (e.g.: -h 240)
-#            default is 240
-#
-#      -t    (gui) window title
-#            default is filename
 #
 # Note:
 # -------------------------
@@ -49,18 +31,18 @@ usage() {
 	echo "$0 -f <filename> [-w width(int)] [-h height(int)] [-t window-title]"
 	echo
 	echo " required:"
-	echo "   -f    input filename"
+	echo "   -f <filename>   input filename"
 	echo
 	echo " optional:"
 	echo
-	echo "   -w    (gui) width of window (e.g.: -w 800)"
-	echo "         default is 800"
+	echo "   -w              (gui) width of window (e.g.: -w 800)"
+	echo "                   default is 800"
 	echo
-	echo "   -h    (gui) height of window (e.g.: -h 240)"
-	echo "         default is 240"
+	echo "   -h              (gui) height of window (e.g.: -h 240)"
+	echo "                   default is 240"
 	echo
-	echo "   -t    (gui) window title"
-	echo "         default is filename"
+	echo "   -t              (gui) window title"
+	echo "                   default is filename"
 	echo
 	exit 1
 }
@@ -97,11 +79,12 @@ fi
 
 
 ########################## gui output ###############################
-[ ! -z "${w##*[!0-9]*}" ]	&& WIDTH=$f		|| WIDTH=600
-[ ! -z "${h##*[!0-9]*}" ]	&& HEIGHT=$f	|| HEIGHT=240
-[ -n "${t}" ]				&& TITLE=$t		|| TITLE=$f
+[ ! -z "${w##*[!0-9]*}" ]	&& WIDTH=$w		|| WIDTH=600
+[ ! -z "${h##*[!0-9]*}" ]	&& HEIGHT=$h	|| HEIGHT=240
+[ -n "${t}" ]				&& TITLE=$t		|| TITLE="Pasting to Gist: ${f}"
 
 
 gist --private --shorten --copy  $f \
 	| zenity --width=${WIDTH} --height=${HEIGHT} --text-info --title $TITLE
+
 exit 0

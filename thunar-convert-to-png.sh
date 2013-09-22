@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# Decrypt a gpg encrypted file.
+# Convert an image file to a png file.
 #
 # * Put this file into your home binary dir: ~/bin/
 # * Make it executable: chmod +x
@@ -8,20 +8,20 @@
 #
 # Required Software:
 # -------------------------
-#   * gpg
+#   * convert
 #
 #
 # Thunar Integration
 # ------------------------
 #
-#   Command:      ~/bin/thunar-gpg-decrypt.sh -f %f
+#   Command:      ~/bin/thunar-convert-to-png.sh -f %f
 #   File Pattern: *
-#   Appear On:    Other Files
+#   Appear On:    Image Files
 #
 #
 # Usage:
 # -------------------------
-#   thunar-gpg-decrypt.sh -f <filename>
+#   thunar-convert-to-png.sh -f <filename>
 #
 #     required:
 #      -f    input filename
@@ -63,8 +63,6 @@ if [ -z "${f}" ]; then
 	usage
 fi
 
-
-gpg -o ${f}.decrypted -d ${f}
-
+convert ${f} ${f}.png
 
 exit 0
