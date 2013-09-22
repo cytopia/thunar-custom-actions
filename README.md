@@ -3,11 +3,11 @@ Thunar Custom Actions
 
 ## Multimedia
 
-### ![Thunar Convert to PNG](/icons/thunar-convert-to-png.png) thunar-convert-to-png.sh
+### ![Thunar Convert to PNG](/icons/thunar-convert-to-png.png) [thunar-convert-to-png.sh](thunar-convert-to-png.sh)
 This action converts any image file to a png image.
 
 
-### ![Thunar Media Info](/icons/thunar-media-info-png.png) thunar-media-info.sh
+### ![Thunar Media Info](/icons/thunar-media-info.png) thunar-media-info.sh
 This action pops up a zenity-based window and displays encoding information
 for and audio or video file.
 
