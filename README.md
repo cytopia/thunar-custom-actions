@@ -29,3 +29,7 @@ This action pops up a terminal window for password entry and decrypts the file w
 This action pastes a text file to gist (in private mode) and pops up a zenity-based
 window displaying the paste url (shortened).
 Additionally the paste url will also be copied to clipboard.
+
+### ![Thunar Ipload to Imgur](/icons/thunar-upload-to-imgur.png) [thunar-upload-to-imgur.sh](thunar-upload-to-imgur.sh)
+This action uploads an image file to imgur and pops up a zenity-based
+window displaying the upload url.
