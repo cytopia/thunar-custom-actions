@@ -63,6 +63,6 @@ if [ -z "${f}" ]; then
 	usage
 fi
 
-convert ${f} ${f}.png
+convert "${f}" "${f}.png"
 
 exit 0
