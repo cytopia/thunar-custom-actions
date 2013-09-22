@@ -12,7 +12,10 @@ If any of the actions don't work anymore (especially the upload ones), please re
 ## Multimedia
 
 ### ![Thunar Convert to PNG](/icons/thunar-convert-to-png.png) [thunar-convert-to-png.sh](thunar-convert-to-png.sh)
-This action converts any image file to a png image.
+This action converts any image file to a png image. (Should also work with layered PSD files)
+
+### ![Thunar Convert to JPG](/icons/thunar-convert-to-jpg.png) [thunar-convert-to-jpg.sh](thunar-convert-to-jpg.sh)
+This action converts any image file to a jpg image. (Should also work with layered PSD files)
 
 
 ### ![Thunar Media Info](/icons/thunar-media-info.png) [thunar-media-info.sh](thunar-media-info.sh)
