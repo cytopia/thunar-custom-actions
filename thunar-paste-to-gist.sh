@@ -81,10 +81,10 @@ fi
 ########################## gui output ###############################
 [ ! -z "${w##*[!0-9]*}" ]	&& WIDTH=$w		|| WIDTH=600
 [ ! -z "${h##*[!0-9]*}" ]	&& HEIGHT=$h	|| HEIGHT=240
-[ -n "${t}" ]				&& TITLE=$t		|| TITLE="Pasting to Gist: ${f}"
+[ -n "${t}" ]				&& TITLE=$t		|| TITLE="Pasting to gist: `basename "${f}"`"
 
 
-gist --private --shorten --copy  $f \
-	| zenity --width=${WIDTH} --height=${HEIGHT} --text-info --title $TITLE
+gist --private --shorten --copy "${f}" \
+	| zenity --width=${WIDTH} --height=${HEIGHT} --text-info --title "${TITLE}"
 
 exit 0

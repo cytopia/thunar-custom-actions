@@ -14,7 +14,9 @@
 # Thunar Integration
 # ------------------------
 #
-#   Command:      ~/bin/thunar-gpg-decrypt.sh -f %f
+# replace urxvtcd with your favorite terminal
+#
+#   Command:      urxvtcd -e ~/bin/thunar-gpg-decrypt.sh -f %f
 #   File Pattern: *
 #   Appear On:    Other Files
 #
@@ -64,7 +66,7 @@ if [ -z "${f}" ]; then
 fi
 
 
-gpg -o ${f}.decrypted -d ${f}
+gpg -o "${f}.decrypted" -d "${f}"
 
 
 exit 0

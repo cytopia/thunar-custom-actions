@@ -16,7 +16,9 @@
 # Thunar Integration
 # ------------------------
 #
-#   Command:      ~/bin/thunar-gpg-encrypt.sh -f %f
+# replace urxvtcd with your favorite terminal
+#
+#   Command:      urxvtcd -e ~/bin/thunar-gpg-encrypt.sh -f %f
 #   File Pattern: *
 #   Appear On:    Select everything
 #
@@ -85,6 +87,6 @@ echo "---------------------------------------------"
 
 
 # Start interactive encryption
-gpg --sign --encrypt $f
+gpg --sign --encrypt "${f}"
 
 exit 0

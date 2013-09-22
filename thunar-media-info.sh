@@ -116,13 +116,13 @@ fi
 ########################## gui output ###############################
 [ ! -z "${w##*[!0-9]*}" ]	&& WIDTH=$f		|| WIDTH=800
 [ ! -z "${h##*[!0-9]*}" ]	&& HEIGHT=$f	|| HEIGHT=240
-[ -n "${t}" ]				&& TITLE=$t		|| TITLE=$(basename "$f")
+[ -n "${t}" ]				&& TITLE=$t		|| TITLE="Media Info for: `basename "${f}"`"
 
 
 
-ffmpeg -i $f  2>&1 \
+ffmpeg -i "${f}"  2>&1 \
 	| grep -e Stream -e Duration -e Input \
-	| zenity --width=${WIDTH} --height=${HEIGHT} --text-info --title $TITLE
+	| zenity --width=${WIDTH} --height=${HEIGHT} --text-info --title "${TITLE}"
 
 exit 0
 
