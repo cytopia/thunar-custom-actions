@@ -10,6 +10,7 @@
 # -------------------------
 #   * zenity
 #   * gist
+#   * xclip
 #
 #
 # Thunar Integration
