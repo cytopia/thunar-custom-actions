@@ -11,14 +11,13 @@
 # Required Software:
 # -------------------------
 #   * gpg
+#	* zenity
 #
 #
 # Thunar Integration
 # ------------------------
 #
-# replace urxvtcd with your favorite terminal
-#
-#   Command:      urxvtcd -e ~/bin/thunar-gpg-encrypt.sh -f %f
+#   Command:      ~/bin/thunar-gpg-encrypt.sh -f %f
 #   File Pattern: *
 #   Appear On:    Select everything
 #
@@ -68,25 +67,111 @@ if [ -z "${f}" ]; then
 fi
 
 
+Recipient () {
+
+	pubkeys=`gpg --list-public-keys \
+	  | grep -A 1 pub \
+	  | awk '{print $2,$3,$4}' \
+	  | egrep -v "^[[:space:]]*$" \
+	  | awk 'NR%2{printf $1" ";next;}1' \
+	  | awk '{print substr($0,7,8)" "substr($0,1,5)" \""$2,$3,$4"\""}'`
+
+
+	CMD="zenity --list \
+	       --width=550 --height=250 \
+	       --title=\"GPG Encrypt File for...\" \
+	       --print-column=1 \
+	       --text=\"Choose Recipient\" \
+	       --column=\"Key\" --column=\"Bit\" --column=\"Recipient\" $pubkeys"
+
+	eval $CMD
+}
+
+
+Secret () {
+
+	seckeys=`gpg --list-secret-keys \
+	  | grep -A 1 sec \
+	  | awk '{print $2,$3,$4}' \
+	  | egrep -v "^[[:space:]]*$" \
+	  | awk 'NR%2{printf $1" ";next;}1' \
+	  | awk '{print substr($0,7,8)" "substr($0,1,5)" \""$2,$3,$4"\""}'`
+
+
+	CMD="zenity --list \
+	       --width=550 --height=250 \
+	       --title=\"Choose private key...\" \
+	       --print-column=1 \
+	       --text=\"Choose your private key\" \
+	       --column=\"Key\" --column=\"Bit\" --column=\"Secret Key\" $seckeys"
+
+	eval $CMD
+}
+
+
+Passphrase () {
+
+	CMD="zenity --password"
+	eval $CMD
+}
+
+
+r=`Recipient`
+if [ -z "${r}" ]; then
+	zenity --error --text="No Recipient specified."
+	exit 1
+fi
+# fix zenity bug on double click
+# https://bugzilla.gnome.org/show_bug.cgi?id=698683
+r=`echo $r | awk '{split($0,a,"|"); print a[1]}'`
 
 
 
-#!/bin/sh
+u=`Secret`
+if [ -z "${u}" ]; then
+	zenity --error --text="No Secret key specified."
+	exit 1
+fi
+# fix zenity bug on double click
+# https://bugzilla.gnome.org/show_bug.cgi?id=698683
+u=`echo $u | awk '{split($0,a,"|"); print a[1]}'`
 
+
+
+p=`Passphrase`
+if [ -z "${p}" ]; then
+	zenity --error --text="No Password specified."
+	exit 1
+fi
+
+
+error=$(gpg -e -s --yes --batch --local-user $u --recipient $r --passphrase $p "${f}" 2>&1)
+errno=$?
+
+if [ "$errno" -gt "0" ]; then
+	zenity --error --text="${error}\nreturn code: ${errno}"
+	exit 1
+else
+	zenity --info --text="Encrypted."
+	exit 0
+fi
+
+
+###### old CMD Version
 # show keys so you can choose the recipient
 
-echo "key        type    recipient"
-echo "---------------------------------------------"
-gpg --list-keys \
-  | grep -A 1 pub \
-  | awk '{print $2,$3,$4}' \
-  | egrep -v "^[[:space:]]*$" \
-  | awk 'NR%2{printf $1" ";next;}1' \
-  | awk '{print substr($0,7,8)"  (" substr($0,1,5)")  "$2,$3,$4,$5}'
-echo "---------------------------------------------"
-
-
-# Start interactive encryption
-gpg --sign --encrypt "${f}"
-
-exit 0
+#echo "key        type    recipient"
+#echo "---------------------------------------------"
+#gpg --list-keys \
+#  | grep -A 1 pub \
+#  | awk '{print $2,$3,$4}' \
+#  | egrep -v "^[[:space:]]*$" \
+#  | awk 'NR%2{printf $1" ";next;}1' \
+#  | awk '{print substr($0,7,8)"  (" substr($0,1,5)")  "$2,$3,$4,$5}'
+#echo "---------------------------------------------"
+#
+#
+## Start interactive encryption
+#gpg --sign --encrypt "${f}"
+#
+#exit 0
