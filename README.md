@@ -26,8 +26,9 @@ for and audio or video file.
 ## Security
 
 ### ![Thunar GPG Encrypt](/icons/thunar-gpg-encrypt.png) [thunar-gpg-encrypt.sh](thunar-gpg-encrypt.sh)
-This action pops up a zenity-gui letting you choose from and to key and encrypts and signs the file with your chosen gpg key.
-(Asymmetric encryption)
+This action pops up a zenity-based window letting you choose from your gpg recipients
+and encrypts and signs the file with your chosen gpg key. (Asymmetric encryption)
+
 
 ### ![Thunar GPG Decrypt](/icons/thunar-gpg-decrypt.png) [thunar-gpg-decrypt.sh](thunar-gpg-decrypt.sh)
 This action pops up a terminal window for password entry and decrypts the file with your private gpg key.
