@@ -12,6 +12,7 @@
 # -------------------------
 #   * gpg
 #	* zenity
+#	* pinentry-gtk-2
 #
 #
 # Thunar Integration
@@ -67,7 +68,7 @@ if [ -z "${f}" ]; then
 fi
 
 
-Recipient () {
+chooseRecipient () {
 
 	pubkeys=`gpg --list-public-keys \
 	  | grep -A 1 pub \
@@ -88,7 +89,7 @@ Recipient () {
 }
 
 
-Secret () {
+chooseSecret () {
 
 	seckeys=`gpg --list-secret-keys \
 	  | grep -A 1 sec \
@@ -108,15 +109,12 @@ Secret () {
 	eval $CMD
 }
 
-
-Passphrase () {
-
-	CMD="zenity --password"
-	eval $CMD
+readPassword () {
+    echo "GETPIN" | pinentry-gtk-2 2> /dev/null | grep "D" | awk '{print $2}'
 }
 
 
-r=`Recipient`
+r=`chooseRecipient`
 if [ -z "${r}" ]; then
 	zenity --error --text="No Recipient specified."
 	exit 1
@@ -127,7 +125,7 @@ r=`echo $r | awk '{split($0,a,"|"); print a[1]}'`
 
 
 
-u=`Secret`
+u=`chooseSecret`
 if [ -z "${u}" ]; then
 	zenity --error --text="No Secret key specified."
 	exit 1
@@ -138,7 +136,7 @@ u=`echo $u | awk '{split($0,a,"|"); print a[1]}'`
 
 
 
-p=`Passphrase`
+p=`readPassword`
 if [ -z "${p}" ]; then
 	zenity --error --text="No Password specified."
 	exit 1
