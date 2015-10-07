@@ -31,7 +31,7 @@
 # -------------------------
 #
 # Feel free to adjust/improve and commit back to:
-#  https://github.com/pantu/thunar-custom-actions
+#  https://github.com/cytopia/thunar-custom-actions
 #
 
 
