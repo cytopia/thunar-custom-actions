@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #
 # Upload a Picture to imgur.
 #
@@ -115,6 +115,20 @@ fi
 #TEXT=$(curl -F "image"=@"$f" -F "key"="a3793a1cce95f32435bb002b92e0fa5e" http://imgur.com/api/upload.xml | sed -e "s/.*<imgur_page>//" | sed -e "s/<.*//")
 #zenity --info --title="Imgur Upload" --text="$TEXT"
 
-curl -# -F "image"=@"$f" -F "key"="4907fcd89e761c6b07eeb8292d5a9b2a" http://imgur.com/api/upload.xml \
-	| grep -Eo '<[a-z_]+>http[^<]+' \
-	| zenity --width=${WIDTH} --height=${HEIGHT} --text-info --title "${TITLE}"
+TEXT=$(curl -# -F "image"=@"$f" -F "key"="4907fcd89e761c6b07eeb8292d5a9b2a" http://imgur.com/api/upload.xml ) 
+#TEXT='<?xml version="1.0" encoding="utf-8"?> <rsp stat="ok"><image_hash>d5gSMGf</image_hash><delete_hash>doB1PJ99oDkMiKm</delete_hash><original_image>http://i.imgur.com/d5gSMGf.png</original_image><large_thumbnail>http://i.imgur.com/d5gSMGfl.jpg</large_thumbnail><small_thumbnail>http://i.imgur.com/d5gSMGfs.jpg</small_thumbnail><imgur_page>http://imgur.com/d5gSMGf</imgur_page><delete_page>http://imgur.com/delete/doB1PJ99oDkMiKm</delete_page></rsp>'
+TAG=$(echo $TEXT |grep -Eo '<[a-z_]+>http' |sed -e "s/http//" |sed -e "s/<//" |sed -e "s/>//")
+URL=$(echo $TEXT |grep -Eo 'http[^<]+')
+ZTEXT=""
+urls=($URL)
+tags=($TAG)
+for ((i = 0; i < ${#urls[@]}; i++))
+do
+	ZTEXT=$ZTEXT${tags[$i]}' <a href="'${urls[$i]}'">'${urls[$i]}'</a>\n'
+done
+zenity --info --title "${TITLE}" --text="${ZTEXT}" #'<a href="http://goat.cx">klik</a>' #''$ZTEXT''
+
+
+#curl -# -F "image"=@"$f" -F "key"="4907fcd89e761c6b07eeb8292d5a9b2a" http://imgur.com/api/upload.xml \
+#	| grep -Eo '<[a-z_]+>http[^<]+' \
+#	| zenity --width=${WIDTH} --height=${HEIGHT} --text-info --title "${TITLE}"
