@@ -30,7 +30,7 @@
 # -------------------------
 #
 # Feel free to adjust/improve and commit back to:
-#  https://github.com/cytopia/thunar-custom-actions
+# https://github.com/cytopia/thunar-custom-actions
 #
 
 
@@ -40,7 +40,6 @@ usage() {
 	echo " required:"
 	echo "   -f    input filename"
 	echo
-	exit 1
 }
 
 
@@ -50,7 +49,7 @@ while getopts ":f:" i; do
 			f=${OPTARG}
 			;;
 		*)
-			echo "Error - unrecognized option $1" 1>&2;
+			echo "Error - unrecognized option $1" 1>&2
 			usage
 			;;
 	esac
@@ -59,10 +58,17 @@ shift $((OPTIND-1))
 
 # Check if file is specified
 if [ -z "${f}" ]; then
-	echo "Error - no file specified" 1>&2;
+	echo "Error - no file specified" 1>&2
 	usage
+	exit 1
 fi
 
-convert "${f}" "${f}.jpg"
+# Check if convert exists
+if ! command -v convert >/dev/null 2>&1 ; then
+	echo "Error - 'convert' not found." 1>&2
+	exit 1
+fi
 
-exit 0
+$(which convert) "${f}" "${f}.jpg"
+exit $?
+

@@ -102,12 +102,24 @@ if [ -z "${f}" ]; then
 	usage
 fi
 
+# Check if zenity exists
+if ! command -v zenity >/dev/null 2>&1 ; then
+	echo "Error - 'zenity' not found." 1>&2
+	exit 1
+fi
+
+# Check if zenity exists
+if ! command -v ffmpeg >/dev/null 2>&1 ; then
+	echo "Error - 'ffmpeg' not found." 1>&2
+	exit 1
+fi
+
 
 ########################## console output ###############################
 
 # Do we have textbased output?
 if [ -n "${c}" ]; then
-	ffmpeg -i $f  2>&1 \
+	ffmpeg -i "${f}"  2>&1 \
 		| grep -e Stream -e Duration -e Input
 	exit 0
 fi
@@ -116,7 +128,7 @@ fi
 ########################## gui output ###############################
 [ ! -z "${w##*[!0-9]*}" ]	&& WIDTH=$f		|| WIDTH=800
 [ ! -z "${h##*[!0-9]*}" ]	&& HEIGHT=$f	|| HEIGHT=240
-[ -n "${t}" ]				&& TITLE=$t		|| TITLE="Media Info for: `basename "${f}"`"
+[ -n "${t}" ]				&& TITLE=$t		|| TITLE="Media Info for: $(basename "${f}")"
 
 
 

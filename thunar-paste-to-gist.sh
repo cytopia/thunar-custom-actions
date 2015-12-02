@@ -45,7 +45,6 @@ usage() {
 	echo "   -t              (gui) window title"
 	echo "                   default is filename"
 	echo
-	exit 1
 }
 
 
@@ -75,6 +74,25 @@ shift $((OPTIND-1))
 if [ -z "${f}" ]; then
 	echo "Error - no file specified" 1>&2;
 	usage
+	exit 1
+fi
+
+# Check if zenity exists
+if ! command -v zenity >/dev/null 2>&1 ; then
+	echo "Error - 'zenity' not found." 1>&2
+	exit 1
+fi
+
+# Check if zenity exists
+if ! command -v gist >/dev/null 2>&1 ; then
+	echo "Error - 'gist' not found." 1>&2
+	exit 1
+fi
+
+# Check if zenity exists
+if ! command -v xclip >/dev/null 2>&1 ; then
+	echo "Error - 'xclip' not found." 1>&2
+	exit 1
 fi
 
 
@@ -82,10 +100,9 @@ fi
 ########################## gui output ###############################
 [ ! -z "${w##*[!0-9]*}" ]	&& WIDTH=$w		|| WIDTH=600
 [ ! -z "${h##*[!0-9]*}" ]	&& HEIGHT=$h	|| HEIGHT=240
-[ -n "${t}" ]				&& TITLE=$t		|| TITLE="Pasting to gist: `basename "${f}"`"
+[ -n "${t}" ]				&& TITLE=$t		|| TITLE="Pasting to gist: $(basename "${f}")"
 
 
 gist-paste --private --shorten --copy "${f}" \
 	| zenity --width=${WIDTH} --height=${HEIGHT} --text-info --title "${TITLE}"
-
-exit 0
+exit $?

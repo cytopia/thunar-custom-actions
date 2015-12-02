@@ -40,7 +40,6 @@ usage() {
 	echo " required:"
 	echo "   -f    input filename"
 	echo
-	exit 1
 }
 
 
@@ -61,8 +60,15 @@ shift $((OPTIND-1))
 if [ -z "${f}" ]; then
 	echo "Error - no file specified" 1>&2;
 	usage
+	exit 1
 fi
 
-convert "${f}" "${f}.png"
+# Check if convert exists
+if ! command -v convert >/dev/null 2>&1 ; then
+	echo "Error - 'convert' not found." 1>&2
+	exit 1
+fi
 
-exit 0
+$(which convert) "${f}" "${f}.png"
+exit $?
+
