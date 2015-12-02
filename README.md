@@ -1,5 +1,6 @@
-Thunar Custom Actions
-=====================
+# Thunar Custom Actions
+
+[![Build Status](https://travis-ci.org/cytopia/thunar-custom-actions.svg?branch=master)](https://travis-ci.org/cytopia/thunar-custom-actions)
 
 The following actions can also be used in nautilus or any other file manager that supports custom actions.
 I personally prefer thunar because of speed.
