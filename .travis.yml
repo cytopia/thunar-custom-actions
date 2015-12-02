@@ -1,0 +1,21 @@
+language: shell
+
+sudo: false
+
+addons:
+  apt:
+    sources:
+      - debian-sid
+    packages:
+      - shellcheck
+
+script:
+    - shellcheck --shell=sh thunar-convert-to-jpg.sh
+    - shellcheck --shell=sh thunar-convert-to-png.sh
+    - shellcheck --shell=sh thunar-gpg-decrypt.sh
+    - shellcheck --shell=sh thunar-gpg-encrypt.sh
+    - shellcheck --shell=sh thunar-gpg-info.sh
+    - shellcheck --shell=sh thunar-media-info.sh
+    - shellcheck --shell=sh thunar-paste-to-gist.sh
+    - shellcheck --shell=sh thunar-upload-to-imgur.sh
+    - shellcheck --shell=sh thunar-upload-to-imgur.sh

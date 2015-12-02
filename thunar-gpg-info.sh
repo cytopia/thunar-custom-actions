@@ -41,7 +41,6 @@ usage() {
 	echo " required:"
 	echo "   -f    input filename"
 	echo
-	exit 1
 }
 
 
@@ -62,27 +61,37 @@ shift $((OPTIND-1))
 if [ -z "${f}" ]; then
 	echo "Error - no file specified" 1>&2;
 	usage
+	exit 1
+fi
+
+# Check if gpg exists
+if ! command -v gpg >/dev/null 2>&1 ; then
+	echo "Error - 'gpg' not found." 1>&2
+	exit 1
+fi
+
+# Check if zenity exists
+if ! command -v zenity >/dev/null 2>&1 ; then
+	echo "Error - 'zenity' not found." 1>&2
+	exit 1
 fi
 
 
-
 Validate () {
-
-	error=`gpg --list-packets --list-only $f 2> /dev/null`
+	error="$(gpg --list-packets --list-only "${f}" 2> /dev/null)"
 	echo $?
 }
 
 
 RecipientKey () {
-
-	candidates=`gpg --list-secret-keys | grep ssb | awk '{print $2}' | awk '{print substr($0,7,8)}'`
+	candidates="$(gpg --list-secret-keys | grep ssb | awk '{print $2}' | awk '{print substr($0,7,8)}')"
 
 	for i in $candidates
 	do
-		found=`gpg --list-packets --list-only $f | grep $i`
+		gpg --list-packets --list-only "${f}" | grep "${i}" >/dev/null 2>&1
 
 		if [ $? -eq 0 ]; then
-			echo $i
+			echo "${i}"
 			return
 		fi
 	done
@@ -90,28 +99,26 @@ RecipientKey () {
 
 Recipient () {
 
-	key=$1
-	recipient=`gpg --list-secret-keys \
-              | grep -B 2 $key \
-              |grep uid \
-              | awk '{print $2" "$3" "$4}'`
+	key="${1}"
+	recipient="$(gpg --list-secret-keys \
+              | grep -B 2 "${key}" \
+              | grep uid \
+			  | awk '{print $2" "$3" "$4}')"
 
-	echo $recipient
+	echo "${recipient}"
 }
 
 
 
-error=`Validate`
+error="$(Validate)"
 
-if [ $error -eq 0 ]; then
-	recipientKey=`RecipientKey`
-	recipient=`Recipient $recipientKey`
-	#echo $recipient
+if [ "$error" -eq "0" ]; then
+	recipientKey="$(RecipientKey)"
+	recipient="$(Recipient "${recipientKey}")"
 	zenity --info --no-markup --text="Encrypted for: ${recipientKey} ${recipient}"
-	exit 0
+	exit $?
 else
 	zenity --info --text="No valid gpg data found"
 	exit 1
 fi
-
 
