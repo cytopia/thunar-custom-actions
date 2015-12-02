@@ -62,26 +62,22 @@ usage() {
 	echo "   -t    (gui) window title"
 	echo "         default is filename"
 	echo
-	exit 1
 }
 
 
 while getopts ":f:cw:h:t:" i; do
 	case "${i}" in
 		f)
-			f=${OPTARG}
-			;;
-		c)
-			c=yes
+			f="${OPTARG}"
 			;;
 		w)
-			w=${OPTARG}
+			w="${OPTARG}"
 			;;
 		h)
-			h=${OPTARG}
+			h="${OPTARG}"
 			;;
 		t)
-			t=${OPTARG}
+			t="${OPTARG}"
 			;;
 		*)
 			echo "Error - unrecognized option $1" 1>&2;
@@ -95,40 +91,39 @@ shift $((OPTIND-1))
 if [ -z "${f}" ]; then
 	echo "Error - no file specified" 1>&2;
 	usage
+	exit 1
+fi
+
+# Check if zenity exists
+if ! command -v zenity >/dev/null 2>&1 ; then
+	echo "Error - 'zenity' not found." 1>&2
+	exit 1
+fi
+
+# Check if zenity exists
+if ! command -v curl >/dev/null 2>&1 ; then
+	echo "Error - 'curl' not found." 1>&2
+	exit 1
 fi
 
 
-# Console (TODO:)
-# curl -# -F "image"=@"$f" -F "key"="4907fcd89e761c6b07eeb8292d5a9b2a" http://imgur.com/api/upload.xml \
-#	| grep -Eo '<[a-z_]+>http[^<]+' \
-#	| sed 's/^<.\|_./\U&/g;s/_/ /;s/<\(.*\)>/\x1B[0;34m\1:\x1B[0m /'
-
-
-
 ########################## gui output ###############################
-[ ! -z "${w##*[!0-9]*}" ]	&& WIDTH=$f		|| WIDTH=800
-[ ! -z "${h##*[!0-9]*}" ]	&& HEIGHT=$f	|| HEIGHT=240
-[ -n "${t}" ]				&& TITLE=$t		|| TITLE="Uploading to imgur: `basename "${f}"`"
+[ ! -z "${w##*[!0-9]*}" ]	&& WIDTH="${f}"		|| WIDTH="800"
+[ ! -z "${h##*[!0-9]*}" ]	&& HEIGHT="${f}"	|| HEIGHT="240"
+[ -n "${t}" ]				&& TITLE="${t}"		|| TITLE="Uploading to imgur: $(basename "${f}")"
 
-
-
-#TEXT=$(curl -F "image"=@"$f" -F "key"="a3793a1cce95f32435bb002b92e0fa5e" http://imgur.com/api/upload.xml | sed -e "s/.*<imgur_page>//" | sed -e "s/<.*//")
-#zenity --info --title="Imgur Upload" --text="$TEXT"
-
-TEXT=$(curl -# -F "image"=@"$f" -F "key"="4907fcd89e761c6b07eeb8292d5a9b2a" http://imgur.com/api/upload.xml ) 
-#TEXT='<?xml version="1.0" encoding="utf-8"?> <rsp stat="ok"><image_hash>d5gSMGf</image_hash><delete_hash>doB1PJ99oDkMiKm</delete_hash><original_image>http://i.imgur.com/d5gSMGf.png</original_image><large_thumbnail>http://i.imgur.com/d5gSMGfl.jpg</large_thumbnail><small_thumbnail>http://i.imgur.com/d5gSMGfs.jpg</small_thumbnail><imgur_page>http://imgur.com/d5gSMGf</imgur_page><delete_page>http://imgur.com/delete/doB1PJ99oDkMiKm</delete_page></rsp>'
-TAG=$(echo $TEXT |grep -Eo '<[a-z_]+>http' |sed -e "s/http//" |sed -e "s/<//" |sed -e "s/>//")
-URL=$(echo $TEXT |grep -Eo 'http[^<]+')
+IMGUR_KEY="4907fcd89e761c6b07eeb8292d5a9b2a"
+TEXT="$(curl -# -F "image"=@"${f}" -F "key=${IMGUR_KEY}" http://imgur.com/api/upload.xml)"
+TAG="$(echo "${TEXT}" | grep -Eo '<[a-z_]+>http' | sed -e "s/http//" | sed -e "s/<//" | sed -e "s/>//")"
+URL="$(echo "${TEXT}" | grep -Eo 'http[^<]+')"
 ZTEXT=""
 urls=($URL)
 tags=($TAG)
+
 for ((i = 0; i < ${#urls[@]}; i++))
 do
-	ZTEXT=$ZTEXT${tags[$i]}' <a href="'${urls[$i]}'">'${urls[$i]}'</a>\n'
+	ZTEXT="$ZTEXT${tags[$i]}' <a href=\"${urls[$i]}\">${urls[$i]}</a>\n"
 done
-zenity --info --title "${TITLE}" --text="${ZTEXT}" #'<a href="http://goat.cx">klik</a>' #''$ZTEXT''
+zenity --width=${WIDTH} --height=${HEIGHT} --info --title "${TITLE}" --text="${ZTEXT}"
+exit $?
 
-
-#curl -# -F "image"=@"$f" -F "key"="4907fcd89e761c6b07eeb8292d5a9b2a" http://imgur.com/api/upload.xml \
-#	| grep -Eo '<[a-z_]+>http[^<]+' \
-#	| zenity --width=${WIDTH} --height=${HEIGHT} --text-info --title "${TITLE}"
