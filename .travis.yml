@@ -1,13 +1,18 @@
-language: shell
+language: sh
 
-sudo: false
+#sudo: false
+#
+#addons:
+#  apt:
+#    sources:
+#      - debian-sid
+#    packages:
+#      - shellcheck
 
-addons:
-  apt:
-    sources:
-      - debian-sid
-    packages:
-      - shellcheck
+before_script:
+  - sudo add-apt-repository "deb http://archive.ubuntu.com/ubuntu/ trusty-backports restricted main universe"
+  - sudo apt-get update -qq
+  - sudo apt-get install -qq shellcheck
 
 script:
   - shellcheck --shell=sh thunar-convert-to-jpg.sh
