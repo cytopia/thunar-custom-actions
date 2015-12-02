@@ -31,6 +31,8 @@ This action pops up a zenity-based window and displays encoding information for 
 **GUI:** [Zenity dialoag](https://help.gnome.org/users/zenity/stable/)   
 **Requirements:**  `zenity` and `ffmpeg`
 
+---
+
 ### Security
 
 #### ![Thunar GPG Encrypt](/icons/thunar-gpg-encrypt.png) [thunar-gpg-encrypt.sh](thunar-gpg-encrypt.sh)
@@ -50,6 +52,8 @@ This action pops up a terminal window for password entry and decrypts the file w
 This action pops up a zenity-based window and displays information about the encryption of the current file. (Asymmetric encryption).  
 **GUI:** [Zenity dialoag](https://help.gnome.org/users/zenity/stable/)   
 **Requirements:**  `gpg` and `zenity`
+
+---
 
 ### Uploads
 
