@@ -103,20 +103,24 @@ fi
 #	| grep -Eo '<[a-z_]+>http[^<]+' \
 #	| sed 's/^<.\|_./\U&/g;s/_/ /;s/<\(.*\)>/\x1B[0;34m\1:\x1B[0m /'
 
+[ ! -z "${w##*[!0-9]*}" ]	&& WIDTH=$f		|| WIDTH=350
+[ ! -z "${h##*[!0-9]*}" ]	&& HEIGHT=$f	|| HEIGHT=140
+
+TITLE='Uploading to Imgur...'`basename "${f}"` 
+
+TEXT=$(curl -# -F "image"=@"$f" -F "key"="4907fcd89e761c6b07eeb8292d5a9b2a" http://imgur.com/api/upload.xml ) 
+#TEXT="######################                                                    31.2%"
+
+PERCENTAGE=$(echo "${TEXT}"|grep -Eo "[0-9]{1,3}")
+zenity --width=${WIDTH} --height=${HEIGHT} --progress --percentage=${PERCENTAGE} --title="${TITLE}" --text="${TITLE}" --auto-close --time-remaining
 
 
 ########################## gui output ###############################
-[ ! -z "${w##*[!0-9]*}" ]	&& WIDTH=$f		|| WIDTH=800
-[ ! -z "${h##*[!0-9]*}" ]	&& HEIGHT=$f	|| HEIGHT=240
-[ -n "${t}" ]				&& TITLE=$t		|| TITLE="Uploading to imgur: `basename "${f}"`"
-
-
+[ -n "${t}" ]				&& TITLE=$t		|| TITLE="Uploaded to imgur: `basename "${f}"`"
 
 #TEXT=$(curl -F "image"=@"$f" -F "key"="a3793a1cce95f32435bb002b92e0fa5e" http://imgur.com/api/upload.xml | sed -e "s/.*<imgur_page>//" | sed -e "s/<.*//")
-#zenity --info --title="Imgur Upload" --text="$TEXT"
 
-TEXT=$(curl -# -F "image"=@"$f" -F "key"="4907fcd89e761c6b07eeb8292d5a9b2a" http://imgur.com/api/upload.xml ) 
-#TEXT='<?xml version="1.0" encoding="utf-8"?> <rsp stat="ok"><image_hash>d5gSMGf</image_hash><delete_hash>doB1PJ99oDkMiKm</delete_hash><original_image>http://i.imgur.com/d5gSMGf.png</original_image><large_thumbnail>http://i.imgur.com/d5gSMGfl.jpg</large_thumbnail><small_thumbnail>http://i.imgur.com/d5gSMGfs.jpg</small_thumbnail><imgur_page>http://imgur.com/d5gSMGf</imgur_page><delete_page>http://imgur.com/delete/doB1PJ99oDkMiKm</delete_page></rsp>'
+TEXT='<?xml version="1.0" encoding="utf-8"?> <rsp stat="ok"><image_hash>d5gSMGf</image_hash><delete_hash>doB1PJ99oDkMiKm</delete_hash><original_image>http://i.imgur.com/d5gSMGf.png</original_image><large_thumbnail>http://i.imgur.com/d5gSMGfl.jpg</large_thumbnail><small_thumbnail>http://i.imgur.com/d5gSMGfs.jpg</small_thumbnail><imgur_page>http://imgur.com/d5gSMGf</imgur_page><delete_page>http://imgur.com/delete/doB1PJ99oDkMiKm</delete_page></rsp>'
 TAG=$(echo $TEXT |grep -Eo '<[a-z_]+>http' |sed -e "s/http//" |sed -e "s/<//" |sed -e "s/>//")
 URL=$(echo $TEXT |grep -Eo 'http[^<]+')
 ZTEXT=""
@@ -126,7 +130,7 @@ for ((i = 0; i < ${#urls[@]}; i++))
 do
 	ZTEXT=$ZTEXT${tags[$i]}' <a href="'${urls[$i]}'">'${urls[$i]}'</a>\n'
 done
-zenity --info --title "${TITLE}" --text="${ZTEXT}" #'<a href="http://goat.cx">klik</a>' #''$ZTEXT''
+zenity --info --title "${TITLE}" --text="${ZTEXT}" 
 
 
 #curl -# -F "image"=@"$f" -F "key"="4907fcd89e761c6b07eeb8292d5a9b2a" http://imgur.com/api/upload.xml \
