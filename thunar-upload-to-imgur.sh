@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 #
 # Upload a Picture to imgur.
 #
@@ -62,26 +62,22 @@ usage() {
 	echo "   -t    (gui) window title"
 	echo "         default is filename"
 	echo
-	exit 1
 }
 
 
 while getopts ":f:cw:h:t:" i; do
 	case "${i}" in
 		f)
-			f=${OPTARG}
-			;;
-		c)
-			c=yes
+			f="${OPTARG}"
 			;;
 		w)
-			w=${OPTARG}
+			w="${OPTARG}"
 			;;
 		h)
-			h=${OPTARG}
+			h="${OPTARG}"
 			;;
 		t)
-			t=${OPTARG}
+			t="${OPTARG}"
 			;;
 		*)
 			echo "Error - unrecognized option $1" 1>&2;
@@ -95,26 +91,31 @@ shift $((OPTIND-1))
 if [ -z "${f}" ]; then
 	echo "Error - no file specified" 1>&2;
 	usage
+	exit 1
 fi
 
+# Check if zenity exists
+if ! command -v zenity >/dev/null 2>&1 ; then
+	echo "Error - 'zenity' not found." 1>&2
+	exit 1
+fi
 
-# Console (TODO:)
-# curl -# -F "image"=@"$f" -F "key"="4907fcd89e761c6b07eeb8292d5a9b2a" http://imgur.com/api/upload.xml \
-#	| grep -Eo '<[a-z_]+>http[^<]+' \
-#	| sed 's/^<.\|_./\U&/g;s/_/ /;s/<\(.*\)>/\x1B[0;34m\1:\x1B[0m /'
-
-[ ! -z "${w##*[!0-9]*}" ]	&& WIDTH=$w		|| WIDTH=350
-[ ! -z "${h##*[!0-9]*}" ]	&& HEIGHT=$h	|| HEIGHT=140
+# Check if curl exists
+if ! command -v curl >/dev/null 2>&1 ; then
+	echo "Error - 'curl' not found." 1>&2
+	exit 1
+fi
 
 TITLE='Uploading to Imgur...'`basename "${f}"` 
 
-#TEXT=$(curl -# -F "image"=@"$f" -F "key"="4907fcd89e761c6b07eeb8292d5a9b2a" http://imgur.com/api/upload.xml ) 
-#$(curl -# -F "image"=@"$f" -F "key"="4907fcd89e761c6b07eeb8292d5a9b2a" http://imgur.com/api/upload.xml ) |grep -Eo "/([0-9]+)\.[0-9]%$/" |cut -d. -f1)
-
-#TEXT="######################                                                    31.2%"
+IMGUR_KEY="4907fcd89e761c6b07eeb8292d5a9b2a"
 TMPFILE=$(mktemp)
-curl -# -F "image"=@"$f" -o ${TMPFILE} -F "key"="4907fcd89e761c6b07eeb8292d5a9b2a" http://imgur.com/api/upload.xml 2>&1 | stdbuf -oL tr $'\r' $'\n' | stdbuf -oL grep --line-buffered -Eo '([0-9]+)\.[0-9]%$' | zenity --width=${WIDTH} --height=${HEIGHT} --progress --title="${TITLE}" --text="${TITLE}" --auto-close --time-remaining 
-#PERCENTAGE=$(echo "${TEXT}"|grep -Eo "[0-9]{1,3}")
+
+[ ! -z "${w##*[!0-9]*}" ]	&& WIDTH=$w		|| WIDTH=350
+[ ! -z "${h##*[!0-9]*}" ]	&& HEIGHT=$h	|| HEIGHT=140
+[ -n "${t}" ]				&& TITLE="${t}"		|| TITLE="Uploading to imgur: $(basename "${f}")"
+
+curl -# -F "image"=@"$f" -o ${TMPFILE} -F "key"=${IMGUR_KEY} http://imgur.com/api/upload.xml 2>&1 | stdbuf -oL tr $'\r' $'\n' | stdbuf -oL grep --line-buffered -Eo '([0-9]+)\.[0-9]%$' | zenity --width=${WIDTH} --height=${HEIGHT} --progress --title="${TITLE}" --text="${TITLE}" --auto-close --time-remaining 
 #curl -# -F "image"=@"$f" -F "key"="4907fcd89e761c6b07eeb8292d5a9b2a" http://imgur.com/api/upload.xml | grep -Eo "[0-9]{1,3}" | zenity --width=${WIDTH} --height=${HEIGHT} --progress --title="${TITLE}" --text="${TITLE}" --auto-close --time-remaining
 
 
@@ -129,18 +130,16 @@ TEXT=$(cat ${TMPFILE})
 #echo ${TEXT}
 rm ${TMPFILE}
 
-TAG=$(echo $TEXT |grep -Eo '<[a-z_]+>http' |sed -e "s/http//" |sed -e "s/<//" |sed -e "s/>//")
-URL=$(echo $TEXT |grep -Eo 'http[^<]+')
+#TEXT="$(curl -# -F "image"=@"${f}" -F "key=${IMGUR_KEY}" http://imgur.com/api/upload.xml)"
+TAG="$(echo "${TEXT}" | grep -Eo '<[a-z_]+>http' | sed -e "s/http//" | sed -e "s/<//" | sed -e "s/>//")"
+URL="$(echo "${TEXT}" | grep -Eo 'http[^<]+')"
 ZTEXT=""
 urls=($URL)
 tags=($TAG)
+
 for ((i = 0; i < ${#urls[@]}; i++))
 do
-	ZTEXT=$ZTEXT${tags[$i]}' <a href="'${urls[$i]}'">'${urls[$i]}'</a>\n'
+	ZTEXT="$ZTEXT${tags[$i]}' <a href=\"${urls[$i]}\">${urls[$i]}</a>\n"
 done
-zenity --info --title "${TITLE}" --text="${ZTEXT}" 
-
-
-#curl -# -F "image"=@"$f" -F "key"="4907fcd89e761c6b07eeb8292d5a9b2a" http://imgur.com/api/upload.xml \
-#	| grep -Eo '<[a-z_]+>http[^<]+' \
-#	| zenity --width=${WIDTH} --height=${HEIGHT} --text-info --title "${TITLE}"
+zenity --width=${WIDTH} --height=${HEIGHT} --info --title "${TITLE}" --text="${ZTEXT}"
+exit $?

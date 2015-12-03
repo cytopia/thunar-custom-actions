@@ -44,7 +44,6 @@ usage() {
 	echo " required:"
 	echo "   -f    input filename"
 	echo
-	exit 1
 }
 
 
@@ -65,17 +64,36 @@ shift $((OPTIND-1))
 if [ -z "${f}" ]; then
 	echo "Error - no file specified" 1>&2;
 	usage
+	exit 1
+fi
+
+# Check if gpg exists
+if ! command -v gpg >/dev/null 2>&1 ; then
+	echo "Error - 'gpg' not found." 1>&2
+	exit 1
+fi
+
+# Check if pinentry-gtk-2 exists
+if ! command -v pinentry-gtk-2 >/dev/null 2>&1 ; then
+	echo "Error - 'pinentry-gtk-2' not found." 1>&2
+	exit 1
+fi
+
+# Check if zenity exists
+if ! command -v zenity >/dev/null 2>&1 ; then
+	echo "Error - 'zenity' not found." 1>&2
+	exit 1
 fi
 
 
 chooseRecipient () {
 
-	pubkeys=`gpg --list-public-keys \
+	pubkeys="$(gpg --list-public-keys \
 	  | grep -A 1 pub \
 	  | awk '{print $2,$3,$4}' \
 	  | egrep -v "^[[:space:]]*$" \
 	  | awk 'NR%2{printf $1" ";next;}1' \
-	  | awk '{print substr($0,7,8)" "substr($0,1,5)" \""$2,$3,$4"\""}'`
+	  | awk '{print substr($0,7,8)" "substr($0,1,5)" \""$2,$3,$4"\""}')"
 
 
 	CMD="zenity --list \
@@ -83,20 +101,20 @@ chooseRecipient () {
 	       --title=\"GPG Encrypt File for...\" \
 	       --print-column=1 \
 	       --text=\"Choose Recipient\" \
-	       --column=\"Key\" --column=\"Bit\" --column=\"Recipient\" $pubkeys"
+	       --column=\"Key\" --column=\"Bit\" --column=\"Recipient\" ${pubkeys}"
 
-	eval $CMD
+	eval "${CMD}"
 }
 
 
 chooseSecret () {
 
-	seckeys=`gpg --list-secret-keys \
+	seckeys="$(gpg --list-secret-keys \
 	  | grep -A 1 sec \
 	  | awk '{print $2,$3,$4}' \
 	  | egrep -v "^[[:space:]]*$" \
 	  | awk 'NR%2{printf $1" ";next;}1' \
-	  | awk '{print substr($0,7,8)" "substr($0,1,5)" \""$2,$3,$4"\""}'`
+	  | awk '{print substr($0,7,8)" "substr($0,1,5)" \""$2,$3,$4"\""}')"
 
 
 	CMD="zenity --list \
@@ -104,9 +122,9 @@ chooseSecret () {
 	       --title=\"Choose private key...\" \
 	       --print-column=1 \
 	       --text=\"Choose your private key\" \
-	       --column=\"Key\" --column=\"Bit\" --column=\"Secret Key\" $seckeys"
+	       --column=\"Key\" --column=\"Bit\" --column=\"Secret Key\" ${seckeys}"
 
-	eval $CMD
+	eval "${CMD}"
 }
 
 readPassword () {
@@ -114,36 +132,36 @@ readPassword () {
 }
 
 
-r=`chooseRecipient`
+r="$(chooseRecipient)"
 if [ -z "${r}" ]; then
 	zenity --error --text="No Recipient specified."
 	exit 1
 fi
 # fix zenity bug on double click
 # https://bugzilla.gnome.org/show_bug.cgi?id=698683
-r=`echo $r | awk '{split($0,a,"|"); print a[1]}'`
+r="$(echo "${r}" | awk '{split($0,a,"|"); print a[1]}')"
 
 
 
-u=`chooseSecret`
+u="$(chooseSecret)"
 if [ -z "${u}" ]; then
 	zenity --error --text="No Secret key specified."
 	exit 1
 fi
 # fix zenity bug on double click
 # https://bugzilla.gnome.org/show_bug.cgi?id=698683
-u=`echo $u | awk '{split($0,a,"|"); print a[1]}'`
+u="$(echo "${u}" | awk '{split($0,a,"|"); print a[1]}')"
 
 
 
-p=`readPassword`
+p="$(readPassword)"
 if [ -z "${p}" ]; then
 	zenity --error --text="No Password specified."
 	exit 1
 fi
 
 
-error=$(gpg -e -s --yes --batch --local-user $u --recipient $r --passphrase $p "${f}" 2>&1)
+error="$(gpg -e -s --yes --batch --local-user "${u}" --recipient "${r}" --passphrase "${p}" "${f}" 2>&1)"
 errno=$?
 
 if [ "$errno" -gt "0" ]; then
@@ -151,7 +169,7 @@ if [ "$errno" -gt "0" ]; then
 	exit 1
 else
 	zenity --info --text="Encrypted."
-	exit 0
+	exit $?
 fi
 
 
@@ -173,3 +191,4 @@ fi
 #gpg --sign --encrypt "${f}"
 #
 #exit 0
+

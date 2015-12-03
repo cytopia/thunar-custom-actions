@@ -42,7 +42,6 @@ usage() {
 	echo " required:"
 	echo "   -f    input filename"
 	echo
-	exit 1
 }
 
 
@@ -63,10 +62,15 @@ shift $((OPTIND-1))
 if [ -z "${f}" ]; then
 	echo "Error - no file specified" 1>&2;
 	usage
+	exit 1
 fi
 
+# Check if gpg exists
+if ! command -v gpg >/dev/null 2>&1 ; then
+	echo "Error - 'gpg' not found." 1>&2
+	exit 1
+fi
 
-gpg -o "${f}.decrypted" -d "${f}"
+$(which gpg) -o "${f}.decrypted" -d "${f}"
+exit $?
 
-
-exit 0
