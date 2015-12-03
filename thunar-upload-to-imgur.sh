@@ -103,16 +103,19 @@ fi
 #	| grep -Eo '<[a-z_]+>http[^<]+' \
 #	| sed 's/^<.\|_./\U&/g;s/_/ /;s/<\(.*\)>/\x1B[0;34m\1:\x1B[0m /'
 
-[ ! -z "${w##*[!0-9]*}" ]	&& WIDTH=$f		|| WIDTH=350
-[ ! -z "${h##*[!0-9]*}" ]	&& HEIGHT=$f	|| HEIGHT=140
+[ ! -z "${w##*[!0-9]*}" ]	&& WIDTH=$w		|| WIDTH=350
+[ ! -z "${h##*[!0-9]*}" ]	&& HEIGHT=$h	|| HEIGHT=140
 
 TITLE='Uploading to Imgur...'`basename "${f}"` 
 
-TEXT=$(curl -# -F "image"=@"$f" -F "key"="4907fcd89e761c6b07eeb8292d5a9b2a" http://imgur.com/api/upload.xml ) 
-#TEXT="######################                                                    31.2%"
+#TEXT=$(curl -# -F "image"=@"$f" -F "key"="4907fcd89e761c6b07eeb8292d5a9b2a" http://imgur.com/api/upload.xml ) 
+#$(curl -# -F "image"=@"$f" -F "key"="4907fcd89e761c6b07eeb8292d5a9b2a" http://imgur.com/api/upload.xml ) |grep -Eo "/([0-9]+)\.[0-9]%$/" |cut -d. -f1)
 
-PERCENTAGE=$(echo "${TEXT}"|grep -Eo "[0-9]{1,3}")
-zenity --width=${WIDTH} --height=${HEIGHT} --progress --percentage=${PERCENTAGE} --title="${TITLE}" --text="${TITLE}" --auto-close --time-remaining
+#TEXT="######################                                                    31.2%"
+TMPFILE=$(mktemp)
+curl -# -F "image"=@"$f" -o ${TMPFILE} -F "key"="4907fcd89e761c6b07eeb8292d5a9b2a" http://imgur.com/api/upload.xml 2>&1 | stdbuf -oL tr $'\r' $'\n' | stdbuf -oL grep --line-buffered -Eo '([0-9]+)\.[0-9]%$' | zenity --width=${WIDTH} --height=${HEIGHT} --progress --title="${TITLE}" --text="${TITLE}" --auto-close --time-remaining 
+#PERCENTAGE=$(echo "${TEXT}"|grep -Eo "[0-9]{1,3}")
+#curl -# -F "image"=@"$f" -F "key"="4907fcd89e761c6b07eeb8292d5a9b2a" http://imgur.com/api/upload.xml | grep -Eo "[0-9]{1,3}" | zenity --width=${WIDTH} --height=${HEIGHT} --progress --title="${TITLE}" --text="${TITLE}" --auto-close --time-remaining
 
 
 ########################## gui output ###############################
@@ -120,7 +123,12 @@ zenity --width=${WIDTH} --height=${HEIGHT} --progress --percentage=${PERCENTAGE}
 
 #TEXT=$(curl -F "image"=@"$f" -F "key"="a3793a1cce95f32435bb002b92e0fa5e" http://imgur.com/api/upload.xml | sed -e "s/.*<imgur_page>//" | sed -e "s/<.*//")
 
-TEXT='<?xml version="1.0" encoding="utf-8"?> <rsp stat="ok"><image_hash>d5gSMGf</image_hash><delete_hash>doB1PJ99oDkMiKm</delete_hash><original_image>http://i.imgur.com/d5gSMGf.png</original_image><large_thumbnail>http://i.imgur.com/d5gSMGfl.jpg</large_thumbnail><small_thumbnail>http://i.imgur.com/d5gSMGfs.jpg</small_thumbnail><imgur_page>http://imgur.com/d5gSMGf</imgur_page><delete_page>http://imgur.com/delete/doB1PJ99oDkMiKm</delete_page></rsp>'
+#TEXT='<?xml version="1.0" encoding="utf-8"?> <rsp stat="ok"><image_hash>d5gSMGf</image_hash><delete_hash>doB1PJ99oDkMiKm</delete_hash><original_image>http://i.imgur.com/d5gSMGf.png</original_image><large_thumbnail>http://i.imgur.com/d5gSMGfl.jpg</large_thumbnail><small_thumbnail>http://i.imgur.com/d5gSMGfs.jpg</small_thumbnail><imgur_page>http://imgur.com/d5gSMGf</imgur_page><delete_page>http://imgur.com/delete/doB1PJ99oDkMiKm</delete_page></rsp>'
+
+TEXT=$(cat ${TMPFILE})
+#echo ${TEXT}
+rm ${TMPFILE}
+
 TAG=$(echo $TEXT |grep -Eo '<[a-z_]+>http' |sed -e "s/http//" |sed -e "s/<//" |sed -e "s/>//")
 URL=$(echo $TEXT |grep -Eo 'http[^<]+')
 ZTEXT=""
