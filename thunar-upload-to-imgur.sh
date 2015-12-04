@@ -115,9 +115,9 @@ TMPFILE=$(mktemp)
 [ ! -z "${h##*[!0-9]*}" ]	&& HEIGHT=$h	|| HEIGHT=140
 [ -n "${t}" ]				&& TITLE="${t}"		|| TITLE="Uploading to imgur: $(basename "${f}")"
 
-curl -# -F "image"=@"$f" -o ${TMPFILE} -F "key"=${IMGUR_KEY} http://imgur.com/api/upload.xml 2>&1 | stdbuf -oL tr $'\r' $'\n' | stdbuf -oL grep --line-buffered -Eo '([0-9]+)\.[0-9]%$' | zenity --width=${WIDTH} --height=${HEIGHT} --progress --title="${TITLE}" --text="${TITLE}" --auto-close --time-remaining 
+curl -# -F "image"=@"$f" -o ${TMPFILE} -F "key"=${IMGUR_KEY} http://imgur.com/api/upload.xml 2>&1 | gawk -v RS='\r' '{print $2; fflush("") }' | zenity --width=${WIDTH} --height=${HEIGHT} --progress --title="${TITLE}" --text="${TITLE}" --auto-close --time-remaining 
 #curl -# -F "image"=@"$f" -F "key"="4907fcd89e761c6b07eeb8292d5a9b2a" http://imgur.com/api/upload.xml | grep -Eo "[0-9]{1,3}" | zenity --width=${WIDTH} --height=${HEIGHT} --progress --title="${TITLE}" --text="${TITLE}" --auto-close --time-remaining
-
+#stdbuf -oL tr $'\r' $'\n' | stdbuf -oL grep --line-buffered -Eo '([0-9]+)\.[0-9]%$' | zenity --width=${WIDTH} --height=${HEIGHT} --progress --title="${TITLE}" --text="${TITLE}" --auto-close --time-remaining 
 
 ########################## gui output ###############################
 [ -n "${t}" ]				&& TITLE=$t		|| TITLE="Uploaded to imgur: `basename "${f}"`"
