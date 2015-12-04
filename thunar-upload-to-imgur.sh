@@ -126,9 +126,10 @@ curl -# -F "image"=@"$f" -o "${TMPFILE}" -F "key"=${IMGUR_KEY} http://imgur.com/
 
 #TEXT='<?xml version="1.0" encoding="utf-8"?> <rsp stat="ok"><image_hash>d5gSMGf</image_hash><delete_hash>doB1PJ99oDkMiKm</delete_hash><original_image>http://i.imgur.com/d5gSMGf.png</original_image><large_thumbnail>http://i.imgur.com/d5gSMGfl.jpg</large_thumbnail><small_thumbnail>http://i.imgur.com/d5gSMGfs.jpg</small_thumbnail><imgur_page>http://imgur.com/d5gSMGf</imgur_page><delete_page>http://imgur.com/delete/doB1PJ99oDkMiKm</delete_page></rsp>'
 
-TEXT=$"(cat ${TMPFILE})"
-#echo ${TEXT}
-rm $"{TMPFILE}"
+TEXT=$(cat "${TMPFILE}")
+#echo "${TMPFILE}"
+#echo "${TEXT}"
+rm "${TMPFILE}"
 
 #TEXT="$(curl -# -F "image"=@"${f}" -F "key=${IMGUR_KEY}" http://imgur.com/api/upload.xml)"
 TAG="$(echo "${TEXT}" | grep -Eo '<[a-z_]+>http' | sed -e "s/http//" | sed -e "s/<//" | sed -e "s/>//")"
