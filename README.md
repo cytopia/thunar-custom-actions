@@ -67,7 +67,7 @@ This action pastes a text file to gist (in private mode) and pops up a zenity-ba
 [![Type](https://img.shields.io/badge/type-bash-red.svg)](https://en.wikipedia.org/wiki/Bash)  
 This action uploads an image file to imgur and pops up a zenity-based window displaying the upload url.  
 **GUI:** [Zenity dialog](https://help.gnome.org/users/zenity/stable/)   
-**Requirements:**  `zenity` and `curl`  
+**Requirements:**  `zenity`, `gawk`, `curl`  
 **Note:** Upload key is included :-)
 
 ## Contributions

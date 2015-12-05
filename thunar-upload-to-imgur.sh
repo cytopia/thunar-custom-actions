@@ -10,6 +10,7 @@
 # -------------------------
 #   * zenity
 #   * curl
+#	* gawk
 #
 #
 # Thunar Integration
@@ -106,6 +107,12 @@ if ! command -v curl >/dev/null 2>&1 ; then
 	exit 1
 fi
 
+# Check if gawk exists
+if ! command -v gawk >/dev/null 2>&1 ; then
+	echo "Error - 'gawk' not found." 1>&2
+	exit 1
+fi
+
 TITLE='Uploading to Imgur...'$(basename "${f}")
 
 IMGUR_KEY="4907fcd89e761c6b07eeb8292d5a9b2a"
@@ -113,22 +120,19 @@ TMPFILE=$(mktemp)
 
 [ ! -z "${w##*[!0-9]*}" ]	&& WIDTH=$w		|| WIDTH=350
 [ ! -z "${h##*[!0-9]*}" ]	&& HEIGHT=$h	|| HEIGHT=140
-[ -n "${t}" ]				&& TITLE="${t}"		|| TITLE="Uploading to imgur: $(basename "${f}")"
+[ -n "${t}" ]				&& TITLE="${t}"	|| TITLE="Uploading to imgur: $(basename "${f}")"
 
-curl -# -F "image"=@"$f" -o "${TMPFILE}" -F "key"=${IMGUR_KEY} http://imgur.com/api/upload.xml 2>&1 | gawk -v RS='\r' '{print $2; fflush("") }' | zenity --width="${WIDTH}" --height="${HEIGHT}" --progress --title="${TITLE}" --text="${TITLE}" --auto-close --time-remaining 
+curl -# -F "image"=@"$f" -o "${TMPFILE}" -F "key"=${IMGUR_KEY} http://imgur.com/api/upload.xml 2>&1 | gawk -v RS='\r' '{print $2; fflush("") }' | zenity --width="${WIDTH}" --height="${HEIGHT}" --progress --title="${TITLE}" --text="${TITLE}" --auto-close --time-remaining
 #curl -# -F "image"=@"$f" -F "key"="4907fcd89e761c6b07eeb8292d5a9b2a" http://imgur.com/api/upload.xml | grep -Eo "[0-9]{1,3}" | zenity --width=${WIDTH} --height=${HEIGHT} --progress --title="${TITLE}" --text="${TITLE}" --auto-close --time-remaining
-#stdbuf -oL tr $'\r' $'\n' | stdbuf -oL grep --line-buffered -Eo '([0-9]+)\.[0-9]%$' | zenity --width=${WIDTH} --height=${HEIGHT} --progress --title="${TITLE}" --text="${TITLE}" --auto-close --time-remaining 
+#stdbuf -oL tr $'\r' $'\n' | stdbuf -oL grep --line-buffered -Eo '([0-9]+)\.[0-9]%$' | zenity --width=${WIDTH} --height=${HEIGHT} --progress --title="${TITLE}" --text="${TITLE}" --auto-close --time-remaining
 
 ########################## gui output ###############################
 [ -n "${t}" ]				&& TITLE=$t		|| TITLE="Uploaded to imgur: $(basename "${f}")"
 
 #TEXT=$(curl -F "image"=@"$f" -F "key"="a3793a1cce95f32435bb002b92e0fa5e" http://imgur.com/api/upload.xml | sed -e "s/.*<imgur_page>//" | sed -e "s/<.*//")
 
-#TEXT='<?xml version="1.0" encoding="utf-8"?> <rsp stat="ok"><image_hash>d5gSMGf</image_hash><delete_hash>doB1PJ99oDkMiKm</delete_hash><original_image>http://i.imgur.com/d5gSMGf.png</original_image><large_thumbnail>http://i.imgur.com/d5gSMGfl.jpg</large_thumbnail><small_thumbnail>http://i.imgur.com/d5gSMGfs.jpg</small_thumbnail><imgur_page>http://imgur.com/d5gSMGf</imgur_page><delete_page>http://imgur.com/delete/doB1PJ99oDkMiKm</delete_page></rsp>'
 
 TEXT=$(cat "${TMPFILE}")
-#echo "${TMPFILE}"
-#echo "${TEXT}"
 rm "${TMPFILE}"
 
 #TEXT="$(curl -# -F "image"=@"${f}" -F "key=${IMGUR_KEY}" http://imgur.com/api/upload.xml)"
@@ -144,3 +148,4 @@ do
 done
 zenity --width=${WIDTH} --height=${HEIGHT} --info --title "${TITLE}" --text="${ZTEXT}"
 exit $?
+
