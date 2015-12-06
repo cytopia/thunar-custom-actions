@@ -13,5 +13,6 @@ script:
   - shellcheck --shell=sh thunar-gpg-info.sh
   - shellcheck --shell=sh thunar-media-info.sh
   - shellcheck --shell=sh thunar-paste-to-gist.sh
+  - shellcheck --shell=sh thunar-paste-to-pastebin.sh
   - shellcheck --shell=bash thunar-upload-to-imgur.sh
 

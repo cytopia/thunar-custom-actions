@@ -63,7 +63,14 @@ This action pastes a text file to gist (in private mode) and pops up a zenity-ba
 **GUI:** [Zenity dialog](https://help.gnome.org/users/zenity/stable/)   
 **Requirements:** `zenity` and `gist`
 
-#### ![Thunar Ipload to Imgur](/icons/thunar-upload-to-imgur.png) [thunar-upload-to-imgur.sh](thunar-upload-to-imgur.sh)
+#### ![Thunar Paste to Pastebin](/icons/thunar-paste-to-pastebin.png) [thunar-paste-to-pastebin.sh](thunar-paste-to-pastebin.sh)
+[![Type](https://img.shields.io/badge/type-%2Fbin%2Fsh-red.svg)](https://en.wikipedia.org/?title=Bourne_shell)  
+This action pastes a text file to pastebin and pops up a zenity-based window displaying the paste url.  
+**NOTE:** Very early version without proper checking - written blindly on a Mac.  
+**GUI:** [Zenity dialog](https://help.gnome.org/users/zenity/stable/)   
+**Requirements:** `zenity` and `curl`
+
+#### ![Thunar Upload to Imgur](/icons/thunar-upload-to-imgur.png) [thunar-upload-to-imgur.sh](thunar-upload-to-imgur.sh)
 [![Type](https://img.shields.io/badge/type-bash-red.svg)](https://en.wikipedia.org/wiki/Bash)  
 This action uploads an image file to imgur and pops up a zenity-based window displaying the upload url.  
 **GUI:** [Zenity dialog](https://help.gnome.org/users/zenity/stable/)   
