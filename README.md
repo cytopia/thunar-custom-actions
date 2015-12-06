@@ -66,7 +66,7 @@ This action pastes a text file to gist (in private mode) and pops up a zenity-ba
 #### ![Thunar Paste to Pastebin](/icons/thunar-paste-to-pastebin.png) [thunar-paste-to-pastebin.sh](thunar-paste-to-pastebin.sh)
 [![Type](https://img.shields.io/badge/type-%2Fbin%2Fsh-red.svg)](https://en.wikipedia.org/?title=Bourne_shell)  
 This action pastes a text file to pastebin and pops up a zenity-based window displaying the paste url.  
-**NOTE:** Very early version without proper checking - written blindly on a Mac.  
+**NOTE:** The pastebin API only allows 25 pastes per free account per every 24 hours. I have added two API keys inside the source. If however you plan on using this thunar action, make sure to get your own API key and replace it. The second thought I had is not to use the API directly, but try to use the normal upload form via curl so that no API key is required at all.  
 **GUI:** [Zenity dialog](https://help.gnome.org/users/zenity/stable/)   
 **Requirements:** `zenity` and `curl`
 
