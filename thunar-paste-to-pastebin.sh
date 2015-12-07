@@ -125,7 +125,7 @@ PB_API_FORMAT="$(get_api_format "${f}")"
 
 
 # The output will only contain the url or an error if something went wrong
-ZTEXT="$($(which curl) --silent --show-error --user-agent "${USERAGENT}" --data api_option=${PB_API_OPT} --data api_paste_format=${PB_API_FORMAT} --data api_dev_key=${PB_API_KEY} --data-urlencode api_paste_code="\"${PB_API_PASTE}\"" $PB_API_URL)"
+ZTEXT="$($(which curl) --silent --show-error --user-agent "${USERAGENT}" --data api_option=${PB_API_OPT} --data api_paste_format="${PB_API_FORMAT}" --data api_dev_key=${PB_API_KEY} --data-urlencode api_paste_code="\"${PB_API_PASTE}\"" $PB_API_URL)"
 
 zenity --width=${WIDTH} --height=${HEIGHT} --info --title "${TITLE}" --text="${ZTEXT}"
 exit
