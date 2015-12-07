@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="Thunar-custom-actions : Custom actions for Thunar (or Nautilus) File manager">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Thunar-custom-actions</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/cytopia/thunar-custom-actions">View on GitHub</a>
+
+          <h1 id="project_title">Thunar-custom-actions</h1>
+          <h2 id="project_tagline">Custom actions for Thunar (or Nautilus) File manager</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/cytopia/thunar-custom-actions/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/cytopia/thunar-custom-actions/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>
+<a id="thunar-custom-actions" class="anchor" href="#thunar-custom-actions" aria-hidden="true"><span class="octicon octicon-link"></span></a>Thunar Custom Actions</h1>
+
+<p><a href="https://travis-ci.org/cytopia/thunar-custom-actions"><img src="https://travis-ci.org/cytopia/thunar-custom-actions.svg?branch=master" alt="Build Status"></a></p>
+
+<p>The following actions can also be used in nautilus or any other file manager that supports custom actions.
+I personally prefer thunar because of speed.</p>
+
+<p>If any of the actions don't work anymore (especially the upload ones), please report here, so I can fix it.</p>
+
+<h2>
+<a id="setup" class="anchor" href="#setup" aria-hidden="true"><span class="octicon octicon-link"></span></a>Setup</h2>
+
+<p>All actions require the <code>-f</code> parameter which specifies the file to work on. Prior Thunar/Nautilus integration you can test them all on the command line to make sure they do what they are supposed to do:</p>
+
+<div class="highlight highlight-source-shell"><pre>thunar-action.sh -f /path/to/file</pre></div>
+
+<p>The equivilent thunar command would be:</p>
+
+<div class="highlight highlight-source-shell"><pre>/path/to/thunar-action.sh -f %f</pre></div>
+
+<p><strong>Note about substitutions in Thunar</strong>:</p>
+
+<div class="highlight highlight-source-shell"><pre>%f    The path to the fisrt selected file
+%F    The paths to all selected files
+%d    Directory containing the file that is passed <span class="pl-k">in</span> %f
+%D    Directory containing the files that are passed <span class="pl-k">in</span> %F
+%n    The first selected filename (without path)
+%N    The selected filenames (without paths)</pre></div>
+
+<h2>
+<a id="actions" class="anchor" href="#actions" aria-hidden="true"><span class="octicon octicon-link"></span></a>Actions</h2>
+
+<h3>
+<a id="multimedia" class="anchor" href="#multimedia" aria-hidden="true"><span class="octicon octicon-link"></span></a>Multimedia</h3>
+
+<h4>
+<a id="-thunar-convert-to-pngsh" class="anchor" href="#-thunar-convert-to-pngsh" aria-hidden="true"><span class="octicon octicon-link"></span></a><img src="https://raw.githubusercontent.com/cytopia/thunar-custom-actions/master/icons/thunar-convert-to-png.png" alt="Thunar Convert to PNG"> <a href="thunar-convert-to-png.sh">thunar-convert-to-png.sh</a>
+</h4>
+
+<p><a href="https://en.wikipedia.org/?title=Bourne_shell"><img src="https://img.shields.io/badge/type-%2Fbin%2Fsh-red.svg" alt="Type"></a><br>
+This action converts any image file to a png image. (Should also work with layered PSD files).<br>
+<strong>GUI:</strong> No output<br>
+<strong>Requirements:</strong> <code>convert</code></p>
+
+<h4>
+<a id="-thunar-convert-to-jpgsh" class="anchor" href="#-thunar-convert-to-jpgsh" aria-hidden="true"><span class="octicon octicon-link"></span></a><img src="https://raw.githubusercontent.com/cytopia/thunar-custom-actions/master/icons/thunar-convert-to-jpg.png" alt="Thunar Convert to JPG"> <a href="thunar-convert-to-jpg.sh">thunar-convert-to-jpg.sh</a>
+</h4>
+
+<p><a href="https://en.wikipedia.org/?title=Bourne_shell"><img src="https://img.shields.io/badge/type-%2Fbin%2Fsh-red.svg" alt="Type"></a><br>
+This action converts any image file to a jpg image. (Should also work with layered PSD files).<br>
+<strong>GUI:</strong> No output<br>
+<strong>Requirements:</strong> <code>convert</code></p>
+
+<h4>
+<a id="-thunar-media-infosh" class="anchor" href="#-thunar-media-infosh" aria-hidden="true"><span class="octicon octicon-link"></span></a><img src="https://raw.githubusercontent.com/cytopia/thunar-custom-actions/master/icons/thunar-media-info.png" alt="Thunar Media Info"> <a href="thunar-media-info.sh">thunar-media-info.sh</a>
+</h4>
+
+<p><a href="https://en.wikipedia.org/?title=Bourne_shell"><img src="https://img.shields.io/badge/type-%2Fbin%2Fsh-red.svg" alt="Type"></a><br>
+This action pops up a zenity-based window and displays encoding information for an audio or video file.<br>
+<strong>GUI:</strong> <a href="https://help.gnome.org/users/zenity/stable/">Zenity dialog</a><br>
+<strong>Requirements:</strong>  <code>zenity</code> and <code>ffmpeg</code></p>
+
+<hr>
+
+<h3>
+<a id="security" class="anchor" href="#security" aria-hidden="true"><span class="octicon octicon-link"></span></a>Security</h3>
+
+<h4>
+<a id="-thunar-gpg-encryptsh" class="anchor" href="#-thunar-gpg-encryptsh" aria-hidden="true"><span class="octicon octicon-link"></span></a><img src="https://raw.githubusercontent.com/cytopia/thunar-custom-actions/master/icons/thunar-gpg-encrypt.png" alt="Thunar GPG Encrypt"> <a href="thunar-gpg-encrypt.sh">thunar-gpg-encrypt.sh</a>
+</h4>
+
+<p><a href="https://en.wikipedia.org/?title=Bourne_shell"><img src="https://img.shields.io/badge/type-%2Fbin%2Fsh-red.svg" alt="Type"></a><br>
+This action pops up a zenity-based window letting you choose from your gpg recipients and encrypts and signs the file with your chosen gpg key. (Asymmetric encryption).<br>
+<strong>GUI:</strong> <a href="https://help.gnome.org/users/zenity/stable/">Zenity dialog</a><br>
+<strong>Requirements:</strong>  <code>gpg</code>, <code>zenity</code> and <code>pinentry-gtk-2</code></p>
+
+<h4>
+<a id="-thunar-gpg-decryptsh" class="anchor" href="#-thunar-gpg-decryptsh" aria-hidden="true"><span class="octicon octicon-link"></span></a><img src="https://raw.githubusercontent.com/cytopia/thunar-custom-actions/master/icons/thunar-gpg-decrypt.png" alt="Thunar GPG Decrypt"> <a href="thunar-gpg-decrypt.sh">thunar-gpg-decrypt.sh</a>
+</h4>
+
+<p><a href="https://en.wikipedia.org/?title=Bourne_shell"><img src="https://img.shields.io/badge/type-%2Fbin%2Fsh-red.svg" alt="Type"></a><br>
+This action pops up a terminal window for password entry and decrypts the file with your private gpg key. (Asymmetric encryption).<br>
+<strong>GUI:</strong> No output<br>
+<strong>Requirements:</strong>  <code>gpg</code><br>
+<strong>Todo:</strong> Make gui-based password entry form.</p>
+
+<h4>
+<a id="-thunar-gpg-infosh" class="anchor" href="#-thunar-gpg-infosh" aria-hidden="true"><span class="octicon octicon-link"></span></a><img src="https://raw.githubusercontent.com/cytopia/thunar-custom-actions/master/icons/thunar-gpg-info.png" alt="Thunar GPG Info"> <a href="thunar-gpg-info.sh">thunar-gpg-info.sh</a>
+</h4>
+
+<p><a href="https://en.wikipedia.org/?title=Bourne_shell"><img src="https://img.shields.io/badge/type-%2Fbin%2Fsh-red.svg" alt="Type"></a><br>
+This action pops up a zenity-based window and displays information about the encryption of the current file. (Asymmetric encryption).<br>
+<strong>GUI:</strong> <a href="https://help.gnome.org/users/zenity/stable/">Zenity dialog</a><br>
+<strong>Requirements:</strong>  <code>gpg</code> and <code>zenity</code></p>
+
+<hr>
+
+<h3>
+<a id="uploads" class="anchor" href="#uploads" aria-hidden="true"><span class="octicon octicon-link"></span></a>Uploads</h3>
+
+<h4>
+<a id="-thunar-paste-to-gistsh" class="anchor" href="#-thunar-paste-to-gistsh" aria-hidden="true"><span class="octicon octicon-link"></span></a><img src="https://raw.githubusercontent.com/cytopia/thunar-custom-actions/master/icons/thunar-paste-to-gist.png" alt="Thunar Paste to Gist"> <a href="thunar-paste-to-gist.sh">thunar-paste-to-gist.sh</a>
+</h4>
+
+<p><a href="https://en.wikipedia.org/?title=Bourne_shell"><img src="https://img.shields.io/badge/type-%2Fbin%2Fsh-red.svg" alt="Type"></a><br>
+This action pastes a text file to gist (in private mode) and pops up a zenity-based window displaying the paste url (shortened). Additionally the paste url will also be copied to clipboard.<br>
+<strong>GUI:</strong> <a href="https://help.gnome.org/users/zenity/stable/">Zenity dialog</a><br>
+<strong>Requirements:</strong> <code>zenity</code> and <code>gist</code></p>
+
+<h4>
+<a id="-thunar-paste-to-pastebinsh" class="anchor" href="#-thunar-paste-to-pastebinsh" aria-hidden="true"><span class="octicon octicon-link"></span></a><img src="https://raw.githubusercontent.com/cytopia/thunar-custom-actions/master/icons/thunar-paste-to-pastebin.png" alt="Thunar Paste to Pastebin"> <a href="thunar-paste-to-pastebin.sh">thunar-paste-to-pastebin.sh</a>
+</h4>
+
+<p><a href="https://en.wikipedia.org/?title=Bourne_shell"><img src="https://img.shields.io/badge/type-%2Fbin%2Fsh-red.svg" alt="Type"></a><br>
+This action pastes a text file to pastebin and pops up a zenity-based window displaying the paste url.<br>
+<strong>GUI:</strong> <a href="https://help.gnome.org/users/zenity/stable/">Zenity dialog</a><br>
+<strong>Requirements:</strong> <code>zenity</code> and <code>curl</code><br>
+<strong>Note:</strong> The pastebin API only allows 25 pastes per free account per every 24 hours. I have added two API keys inside the source. If however you plan on using this thunar action, make sure to get your own API key and replace it. The second thought I had is not to use the API directly, but try to use the normal upload form via curl so that no API key is required at all.<br>
+<strong>Todo:</strong> Expand file type recognition to set the proper syntax highlighting scheme for var <code>PB_API_FORMAT</code>.</p>
+
+<h4>
+<a id="-thunar-upload-to-imgursh" class="anchor" href="#-thunar-upload-to-imgursh" aria-hidden="true"><span class="octicon octicon-link"></span></a><img src="https://raw.githubusercontent.com/cytopia/thunar-custom-actions/master/icons/thunar-upload-to-imgur.png" alt="Thunar Upload to Imgur"> <a href="thunar-upload-to-imgur.sh">thunar-upload-to-imgur.sh</a>
+</h4>
+
+<p><a href="https://en.wikipedia.org/wiki/Bash"><img src="https://img.shields.io/badge/type-bash-red.svg" alt="Type"></a><br>
+This action uploads an image file to imgur and pops up a zenity-based window displaying the upload url.<br>
+<strong>GUI:</strong> <a href="https://help.gnome.org/users/zenity/stable/">Zenity dialog</a><br>
+<strong>Requirements:</strong>  <code>zenity</code>, <code>gawk</code>, <code>curl</code><br>
+<strong>Note:</strong> Upload key is included :-)<br>
+<strong>Todo:</strong> Evaluate if it is possible to get rid of <code>gawk</code> requirement.</p>
+
+<h2>
+<a id="todo--ideas" class="anchor" href="#todo--ideas" aria-hidden="true"><span class="octicon octicon-link"></span></a>TODO / Ideas</h2>
+
+<ul>
+<li>Image: convert from ... to anything via list (dropdown or radio) of target formats (jpg, png, gif, etc). Possibly also some convert options via slider or checkboxes.</li>
+<li>Video: encode/re-encode videos to target format (dropdown or radio for target formats). Also some ffmpeg quality options via slider, textfields and/or checkboxes</li>
+<li>Video to gif</li>
+</ul>
+
+<h2>
+<a id="contributions" class="anchor" href="#contributions" aria-hidden="true"><span class="octicon octicon-link"></span></a>Contributions</h2>
+
+<p>Thanks to the following for contributing:</p>
+
+<ul>
+<li><a href="https://github.com/matiasw">matiasw</a></li>
+</ul>
+
+<h2>
+<a id="license" class="anchor" href="#license" aria-hidden="true"><span class="octicon octicon-link"></span></a>License</h2>
+
+<p><a href="http://opensource.org/licenses/mit"><img src="https://poser.pugx.org/cytopia/mysqldump-secure/license" alt="license"></a></p>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Thunar-custom-actions maintained by <a href="https://github.com/cytopia">cytopia</a></p>
+        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
