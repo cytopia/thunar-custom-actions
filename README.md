@@ -8,6 +8,13 @@ I personally prefer thunar because of speed.
 
 If any of the actions don't work anymore (especially the upload ones), please report here, so I can fix it.
 
+## Setup
+
+All actions require the `-f` parameter which specifies the file to work on. Prior Thunar/Nautilus integration you can test them all on the command line to make sure they do what they are supposed to do:
+```bash
+thunar-action.sh -f /path/to/file
+```
+
 
 ## Actions
 
