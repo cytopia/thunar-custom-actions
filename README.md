@@ -8,6 +8,13 @@ I personally prefer thunar because of speed.
 
 If any of the actions don't work anymore (especially the upload ones), please report here, so I can fix it.
 
+## Setup
+
+All actions require the `-f` parameter which specifies the file to work on. Prior Thunar/Nautilus integration you can test them all on the command line to make sure they do what they are supposed to do:
+```bash
+thunar-action.sh -f /path/to/file
+```
+
 
 ## Actions
 
@@ -68,7 +75,7 @@ This action pastes a text file to gist (in private mode) and pops up a zenity-ba
 [![Type](https://img.shields.io/badge/type-%2Fbin%2Fsh-red.svg)](https://en.wikipedia.org/?title=Bourne_shell)  
 This action pastes a text file to pastebin and pops up a zenity-based window displaying the paste url.  
 **NOTE:** The pastebin API only allows 25 pastes per free account per every 24 hours. I have added two API keys inside the source. If however you plan on using this thunar action, make sure to get your own API key and replace it. The second thought I had is not to use the API directly, but try to use the normal upload form via curl so that no API key is required at all.  
-**TODO:** Auto-recognize filetypes via file extension and/or `file` in order to set the proper syntax highlighting scheme for var `PB_API_FORMAT`.  
+**TODO:** Expand file type recognition to set the proper syntax highlighting scheme for var `PB_API_FORMAT`.  
 **GUI:** [Zenity dialog](https://help.gnome.org/users/zenity/stable/)  
 **Requirements:** `zenity` and `curl`
 
