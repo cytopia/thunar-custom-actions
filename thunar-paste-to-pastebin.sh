@@ -33,6 +33,26 @@ PB_API_FORMAT="text"
 
 
 
+get_api_format() {
+	file="$1"
+	default="text"
+	type="$(file "${file}")"
+
+	# Add all file types here
+	# @see http://pastebin.com/api#5
+	case $type in
+		*POSIX*shell* | *bash*script*)
+			echo "bash"
+			;;
+		*PHP*script*)
+			echo "php"
+			;;
+		*)
+			echo "${default}"
+			;;
+	esac
+}
+
 usage() {
 	echo "$0 -f <filename> [-w width(int)] [-h height(int)] [-t window-title]"
 	echo
@@ -100,6 +120,8 @@ fi
 # Read in the file
 PB_API_PASTE="$(cat "${f}")"
 
+# Figure out the correct format for syntax highlighting via `file`
+PB_API_FORMAT="$(get_api_format "${f}")"
 
 
 # The output will only contain the url or an error if something went wrong
