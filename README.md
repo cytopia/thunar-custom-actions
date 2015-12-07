@@ -14,6 +14,20 @@ All actions require the `-f` parameter which specifies the file to work on. Prio
 ```bash
 thunar-action.sh -f /path/to/file
 ```
+The equivilent thunar command would be:
+```bash
+/path/to/thunar-action.sh -f %f
+```
+
+**Note about substitutions in Thunar**:
+```bash
+%f    The path to the fisrt selected file
+%F    The paths to all selected files
+%d    Directory containing the file that is passed in %f
+%D    Directory containing the files that are passed in %F
+%n    The first selected filename (without path)
+%N    The selected filenames (without paths)
+```
 
 
 ## Actions
