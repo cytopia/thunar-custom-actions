@@ -15,7 +15,7 @@ If any of the actions don't work anymore (especially the upload ones), please re
 ### Multimedia
 
 #### ![Thunar Convert to PNG](/icons/thunar-convert-to-png.png) [thunar-convert-to-png.sh](thunar-convert-to-png.sh)
-[![Type](https://img.shields.io/badge/type-%2Fbin%2Fsh-red.svg)](https://en.wikipedia.org/?title=Bourne_shell)  [![GUI](https://img.shields.io/badge/GUI-no%20output-blue.svg)](https://help.gnome.org/users/zenity/stable/)  
+[![Type](https://img.shields.io/badge/type-%2Fbin%2Fsh-red.svg)](https://en.wikipedia.org/?title=Bourne_shell)  ![GUI](https://img.shields.io/badge/GUI-no%20output-blue.svg)]  
 This action converts any image file to a png image. (Should also work with layered PSD files).  
 **Requirements:** `convert`  
 **Thunar settings:**  
@@ -28,7 +28,7 @@ This action converts any image file to a png image. (Should also work with layer
 | Appear on    | Image files                    |
 
 #### ![Thunar Convert to JPG](/icons/thunar-convert-to-jpg.png) [thunar-convert-to-jpg.sh](thunar-convert-to-jpg.sh)
-[![Type](https://img.shields.io/badge/type-%2Fbin%2Fsh-red.svg)](https://en.wikipedia.org/?title=Bourne_shell) [![GUI](https://img.shields.io/badge/GUI-no%20output-blue.svg)](https://help.gnome.org/users/zenity/stable/)  
+[![Type](https://img.shields.io/badge/type-%2Fbin%2Fsh-red.svg)](https://en.wikipedia.org/?title=Bourne_shell) ![GUI](https://img.shields.io/badge/GUI-no%20output-blue.svg)]  
 This action converts any image file to a jpg image. (Should also work with layered PSD files).  
 **Requirements:** `convert`  
 **Thunar settings:**  
@@ -73,7 +73,7 @@ This action pops up a zenity-based window letting you choose from your gpg recip
 
 
 #### ![Thunar GPG Decrypt](/icons/thunar-gpg-decrypt.png) [thunar-gpg-decrypt.sh](thunar-gpg-decrypt.sh)
-[![Type](https://img.shields.io/badge/type-%2Fbin%2Fsh-red.svg)](https://en.wikipedia.org/?title=Bourne_shell) [![GUI](https://img.shields.io/badge/GUI-no%20output-blue.svg)](https://help.gnome.org/users/zenity/stable/)  
+[![Type](https://img.shields.io/badge/type-%2Fbin%2Fsh-red.svg)](https://en.wikipedia.org/?title=Bourne_shell) ![GUI](https://img.shields.io/badge/GUI-no%20output-blue.svg)]  
 This action pops up a terminal window for password entry and decrypts the file with your private gpg key. (Asymmetric encryption).  
 **Requirements:**  `gpg`  
 **Todo:** Make gui-based password entry form.  
