@@ -143,6 +143,10 @@ This action uploads an image file to postimage.org and pops up a zenity-based wi
 **GUI:** [Zenity dialog](https://help.gnome.org/users/zenity/stable/)  
 **TODO:** Evaluate if it is possible to get rid of `gawk` requirement.  
 **Requirements:**  `zenity`, `gawk`, `curl`  
+* Name: Upload to postimage
+* Command: thunar-upload-to-postimage.sh -f %f
+* File pattern: *
+* Appear on: Image files
 
 
 ## TODO / Ideas
