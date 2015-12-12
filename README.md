@@ -61,7 +61,7 @@ This action pops up a zenity-based window and displays encoding information for 
 #### ![Thunar GPG Encrypt](/icons/thunar-gpg-encrypt.png) [thunar-gpg-encrypt.sh](thunar-gpg-encrypt.sh)
 [![Type](https://img.shields.io/badge/type-%2Fbin%2Fsh-red.svg)](https://en.wikipedia.org/?title=Bourne_shell) [![GUI](https://img.shields.io/badge/GUI-zenity-blue.svg)](https://help.gnome.org/users/zenity/stable/)  
 This action pops up a zenity-based window letting you choose from your gpg recipients and encrypts and signs the file with your chosen gpg key. (Asymmetric encryption).  
-**Requirements:**  `gpg`, `zenity` and `pinentry-gtk-2`
+**Requirements:**  `gpg`, `zenity` and `pinentry-gtk-2`  
 **Thunar settings:**  
 
 | name         | value                          |
@@ -76,7 +76,7 @@ This action pops up a zenity-based window letting you choose from your gpg recip
 [![Type](https://img.shields.io/badge/type-%2Fbin%2Fsh-red.svg)](https://en.wikipedia.org/?title=Bourne_shell) [![GUI](https://img.shields.io/badge/GUI-no%20output-blue.svg)](https://help.gnome.org/users/zenity/stable/)  
 This action pops up a terminal window for password entry and decrypts the file with your private gpg key. (Asymmetric encryption).  
 **Requirements:**  `gpg`  
-**Todo:** Make gui-based password entry form.
+**Todo:** Make gui-based password entry form.  
 **Thunar settings:**  
 
 | name         | value                          |
@@ -90,7 +90,7 @@ This action pops up a terminal window for password entry and decrypts the file w
 #### ![Thunar GPG Info](/icons/thunar-gpg-info.png) [thunar-gpg-info.sh](thunar-gpg-info.sh)
 [![Type](https://img.shields.io/badge/type-%2Fbin%2Fsh-red.svg)](https://en.wikipedia.org/?title=Bourne_shell) [![GUI](https://img.shields.io/badge/GUI-zenity-blue.svg)](https://help.gnome.org/users/zenity/stable/)  
 This action pops up a zenity-based window and displays information about the encryption of the current file. (Asymmetric encryption).  
-**Requirements:**  `gpg` and `zenity`
+**Requirements:**  `gpg` and `zenity`  
 **Thunar settings:**  
 
 | name         | value                          |
@@ -108,7 +108,7 @@ This action pops up a zenity-based window and displays information about the enc
 #### ![Thunar Paste to Gist](/icons/thunar-paste-to-gist.png) [thunar-paste-to-gist.sh](thunar-paste-to-gist.sh)
 [![Type](https://img.shields.io/badge/type-%2Fbin%2Fsh-red.svg)](https://en.wikipedia.org/?title=Bourne_shell) [![GUI](https://img.shields.io/badge/GUI-zenity-blue.svg)](https://help.gnome.org/users/zenity/stable/)  
 This action pastes a text file to gist (in private mode) and pops up a zenity-based window displaying the paste url (shortened). Additionally the paste url will also be copied to clipboard.  
-**Requirements:** `zenity` and `gist`
+**Requirements:** `zenity` and `gist`  
 **Thunar settings:**  
 
 | name         | value                          |
@@ -124,7 +124,7 @@ This action pastes a text file to gist (in private mode) and pops up a zenity-ba
 This action pastes a text file to pastebin and pops up a zenity-based window displaying the paste url.  
 **Requirements:** `zenity` and `curl`  
 **Note:** The pastebin API only allows 25 pastes per free account per every 24 hours. I have added two API keys inside the source. If however you plan on using this thunar action, make sure to get your own API key and replace it. The second thought I had is not to use the API directly, but try to use the normal upload form via curl so that no API key is required at all.  
-**Todo:** Expand file type recognition to set the proper syntax highlighting scheme for var `PB_API_FORMAT`.
+**Todo:** Expand file type recognition to set the proper syntax highlighting scheme for var `PB_API_FORMAT`.  
 **Thunar settings:**  
 
 | name         | value                          |
@@ -139,7 +139,7 @@ This action pastes a text file to pastebin and pops up a zenity-based window dis
 This action uploads an image file to imgur and pops up a zenity-based window displaying the upload url.  
 **Requirements:**  `zenity`, `gawk`, `curl`  
 **Note:** Upload key is included :-)  
-**Todo:** Evaluate if it is possible to get rid of `gawk` requirement.
+**Todo:** Evaluate if it is possible to get rid of `gawk` requirement.  
 **Thunar settings:**  
 
 | name         | value                          |
