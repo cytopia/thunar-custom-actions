@@ -101,6 +101,14 @@ This action uploads an image file to imgur and pops up a zenity-based window dis
 **Requirements:**  `zenity`, `gawk`, `curl`  
 **Note:** Upload key is included :-)
 
+#### ![Thunar Upload to Postimage](/icons/thunar-upload-to-postimage.png) [thunar-upload-to-postimage.sh](thunar-upload-to-postimage.sh)
+[![Type](https://img.shields.io/badge/type-bash-red.svg)](https://en.wikipedia.org/wiki/Bash)  
+This action uploads an image file to postimage.org and pops up a zenity-based window displaying the upload url.  
+**GUI:** [Zenity dialog](https://help.gnome.org/users/zenity/stable/)  
+**TODO:** Evaluate if it is possible to get rid of `gawk` requirement.
+**Requirements:**  `zenity`, `gawk`, `curl`  
+**Note:** Upload key is included :-)
+
 ## TODO / Ideas
 
 * Image: convert from ... to anything via list (dropdown or radio) of target formats (jpg, png, gif, etc). Possibly also some convert options via slider or checkboxes.
