@@ -155,8 +155,8 @@ This action uploads an image file to imgur and pops up a zenity-based window dis
 #### ![Thunar Upload to Postimage](/icons/thunar-upload-to-postimage.png) [thunar-upload-to-postimage.sh](thunar-upload-to-postimage.sh)
 [![Type](https://img.shields.io/badge/type-bash-red.svg)](https://en.wikipedia.org/wiki/Bash) [![GUI](https://img.shields.io/badge/GUI-zenity-blue.svg)](https://help.gnome.org/users/zenity/stable/)  
 This action uploads an image file to postimage.org and pops up a zenity-based window displaying the upload url.  
-**TODO:** Evaluate if it is possible to get rid of `gawk` requirement.  
 **Requirements:**  `zenity`, `gawk`, `curl`  
+**Todo:** Evaluate if it is possible to get rid of `gawk` requirement.  
 **Thunar settings:**  
 
 | name         | value                          |
