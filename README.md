@@ -143,7 +143,7 @@ This action uploads an image file to postimage.org and pops up a zenity-based wi
 **GUI:** [Zenity dialog](https://help.gnome.org/users/zenity/stable/)  
 **TODO:** Evaluate if it is possible to get rid of `gawk` requirement.
 **Requirements:**  `zenity`, `gawk`, `curl`  
-**Note:** Upload key is included :-)
+
 
 ## TODO / Ideas
 
