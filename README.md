@@ -141,7 +141,7 @@ This action uploads an image file to imgur and pops up a zenity-based window dis
 [![Type](https://img.shields.io/badge/type-bash-red.svg)](https://en.wikipedia.org/wiki/Bash)  
 This action uploads an image file to postimage.org and pops up a zenity-based window displaying the upload url.  
 **GUI:** [Zenity dialog](https://help.gnome.org/users/zenity/stable/)  
-**TODO:** Evaluate if it is possible to get rid of `gawk` requirement.
+**TODO:** Evaluate if it is possible to get rid of `gawk` requirement.  
 **Requirements:**  `zenity`, `gawk`, `curl`  
 
 
