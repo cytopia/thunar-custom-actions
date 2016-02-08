@@ -16,4 +16,5 @@ script:
   - shellcheck --shell=sh thunar-paste-to-pastebin.sh
   - shellcheck --shell=bash thunar-upload-to-imgur.sh
   - shellcheck --shell=bash thunar-upload-to-postimage.sh
+  - shellcheck --shell=bash thunar-openssl-encrypt-decrypt.sh
 
