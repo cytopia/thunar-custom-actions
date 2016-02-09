@@ -122,7 +122,7 @@ esac
 
 alg="-${options[1]}"
 
-error="$(openssl enc ${cmd_option} $alg -md sha1 -k "${options[2]}" -in "${f}" -out "${f}${extension}" 2>&1)"
+error="$(openssl enc ${cmd_option} ${alg} -md sha1 -k "${options[2]}" -in "${f}" -out "${f}${extension}" 2>&1)"
 errno=$?
 
 if [ "$errno" -gt "0" ]; then
