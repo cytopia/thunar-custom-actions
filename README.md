@@ -58,6 +58,20 @@ This action pops up a zenity-based window and displays encoding information for 
 
 ### Security
 
+#### ![Thunar Openssl Encrypt/Decrypt](/icons/thunar-gpg-encrypt.png) [thunar-openssl-encrypt-decrypt.sh](thunar-openssl-encrypt-decrypt.sh)
+[![Type](https://img.shields.io/badge/type-%2Fbin%2Fsh-red.svg)](https://en.wikipedia.org/?title=Bourne_shell) [![GUI](https://img.shields.io/badge/GUI-zenity-blue.svg)](https://help.gnome.org/users/zenity/stable/)  
+This action will encrypt/decrypt a file based on openssl's symmetric encryption.  
+**Requirements:**  `openssl` and `zenity`  
+**Thunar settings:**  
+
+| name         | value                          |
+|--------------|--------------------------------|
+| Name         | Openssl Encrypt/Decrypt        |
+| Command      | thunar-openssl-encrypt-decrypt.sh -f %f    |
+| File pattern | *                              |
+| Appear on    | Everything                     |
+
+
 #### ![Thunar GPG Encrypt](/icons/thunar-gpg-encrypt.png) [thunar-gpg-encrypt.sh](thunar-gpg-encrypt.sh)
 [![Type](https://img.shields.io/badge/type-%2Fbin%2Fsh-red.svg)](https://en.wikipedia.org/?title=Bourne_shell) [![GUI](https://img.shields.io/badge/GUI-zenity-blue.svg)](https://help.gnome.org/users/zenity/stable/)  
 This action pops up a zenity-based window letting you choose from your gpg recipients and encrypts and signs the file with your chosen gpg key. (Asymmetric encryption).  
