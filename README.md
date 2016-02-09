@@ -216,6 +216,7 @@ The equivilent thunar command would be:
 Thanks to the following for contributing:
 
 * [matiasw](https://github.com/matiasw)
+* [alan-mushi](https://github.com/alan-mushi)
 
 
 ## License
