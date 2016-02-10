@@ -89,11 +89,9 @@ fi
 chooseRecipient () {
 
 	pubkeys="$(gpg --list-public-keys \
-	  | grep -A 1 pub \
-	  | awk '{print $2,$3,$4}' \
-	  | egrep -v "^[[:space:]]*$" \
-	  | awk 'NR%2{printf $1" ";next;}1' \
-	  | awk '{print substr($0,7,8)" "substr($0,1,5)" \""$2,$3,$4"\""}')"
+	  | grep -A 1 "^pub" \
+	  | sed -n -e "s:^pub *\([A-Za-z0-9]\+\)/\([A-F0-9]\+\) .*$:\1 \2:p" -e "s:^uid *\(.*\)$:\"\1\":p" \
+	  | tr '\n' ' ')"
 
 
 	CMD="zenity --list \
@@ -110,11 +108,9 @@ chooseRecipient () {
 chooseSecret () {
 
 	seckeys="$(gpg --list-secret-keys \
-	  | grep -A 1 sec \
-	  | awk '{print $2,$3,$4}' \
-	  | egrep -v "^[[:space:]]*$" \
-	  | awk 'NR%2{printf $1" ";next;}1' \
-	  | awk '{print substr($0,7,8)" "substr($0,1,5)" \""$2,$3,$4"\""}')"
+	  | grep -A 1 "^sec" \
+	  | sed -n -e "s:^sec *\([A-Za-z0-9]\+\)/\([A-F0-9]\+\) .*$:\1 \2:p" -e "s:^uid *\(.*\)$:\"\1\":p" \
+	  | tr '\n' ' ')"
 
 
 	CMD="zenity --list \
