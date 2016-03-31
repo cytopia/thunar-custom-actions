@@ -71,6 +71,8 @@ This action will encrypt/decrypt a file based on openssl's symmetric encryption.
 | File pattern | *                              |
 | Appear on    | Everything                     |
 
+For detailed explanation and screenshots see this blog entry: [alan-mushi.github.io](https://alan-mushi.github.io/asap/2016/02/09/usable-openssl-symmetric-encryption.html)
+
 
 #### ![Thunar GPG Encrypt](/icons/thunar-gpg-encrypt.png) [thunar-gpg-encrypt.sh](thunar-gpg-encrypt.sh)
 [![Type](https://img.shields.io/badge/type-%2Fbin%2Fsh-red.svg)](https://en.wikipedia.org/?title=Bourne_shell) [![GUI](https://img.shields.io/badge/GUI-zenity-blue.svg)](https://help.gnome.org/users/zenity/stable/)  
