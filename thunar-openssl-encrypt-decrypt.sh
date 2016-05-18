@@ -78,7 +78,7 @@ fi
 
 
 chooseOptions () {
-	algorithms=$(openssl enc --help \
+	algorithms=$(openssl enc --help 2>&1 \
 		| grep -A 200 'Cipher Types' \
 		| grep '^-' \
 		| xargs \
