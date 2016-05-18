@@ -12,7 +12,7 @@
 # -------------------------
 #   * gpg
 #	* zenity
-#	* pinentry-gtk-2
+#	* pinentry-gtk-2 or pinentry-mac
 #
 #
 # Thunar Integration
@@ -74,9 +74,19 @@ if ! command -v gpg >/dev/null 2>&1 ; then
 fi
 
 # Check if pinentry-gtk-2 exists
-if ! command -v pinentry-gtk-2 >/dev/null 2>&1 ; then
-	echo "Error - 'pinentry-gtk-2' not found." 1>&2
-	exit 1
+BIN_PINENTRY
+if [ "$(uname)" != "Darwin" ]; then
+	if ! command -v pinentry-gtk-2 >/dev/null 2>&1 ; then
+		echo "Error - 'pinentry-gtk-2' not found." 1>&2
+		exit 1
+	fi
+	BIN_PINENTRY="pinentry-gtk-2"
+else
+	if ! command -v pinentry-mac >/dev/null 2>&1 ; then
+		echo "Error - 'pinentry-mac' not found." 1>&2
+		exit 1
+	fi
+	BIN_PINENTRY="pinentry-mac"
 fi
 
 # Check if zenity exists
@@ -97,9 +107,9 @@ chooseRecipient () {
 	CMD="zenity --list \
 	       --width=550 --height=250 \
 	       --title=\"GPG Encrypt File for...\" \
-	       --print-column=1 \
+	       --print-column=2 \
 	       --text=\"Choose Recipient\" \
-	       --column=\"Key\" --column=\"Bit\" --column=\"Recipient\" ${pubkeys}"
+	       --column=\"Bit\" --column=\"Key\" --column=\"Recipient\" ${pubkeys}"
 
 	eval "${CMD}"
 }
@@ -116,15 +126,15 @@ chooseSecret () {
 	CMD="zenity --list \
 	       --width=550 --height=250 \
 	       --title=\"Choose private key...\" \
-	       --print-column=1 \
+	       --print-column=2 \
 	       --text=\"Choose your private key\" \
-	       --column=\"Key\" --column=\"Bit\" --column=\"Secret Key\" ${seckeys}"
+	       --column=\"Bit\" --column=\"Key\" --column=\"Secret Key\" ${seckeys}"
 
 	eval "${CMD}"
 }
 
 readPassword () {
-    echo "GETPIN" | pinentry-gtk-2 2> /dev/null | grep "D" | awk '{print $2}'
+    echo "GETPIN" | ${BIN_PINENTRY} 2> /dev/null | grep "D" | awk '{print $2}'
 }
 
 
