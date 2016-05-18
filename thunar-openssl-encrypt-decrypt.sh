@@ -79,7 +79,7 @@ fi
 
 chooseOptions () {
 	algorithms=$(openssl enc --help \
-		|& grep -A 200 'Cipher Types' \
+		| grep -A 200 'Cipher Types' \
 		| grep '^-' \
 		| xargs \
 		| sed -e 's/^-//' -e 's/ -/|/g')
