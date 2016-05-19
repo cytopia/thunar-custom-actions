@@ -143,7 +143,7 @@ chooseSecret () {
 readPassword () {
 	_my_key="$1"
 	_my_mail="$(getMailBySecKey "${_my_key}")"
-	printf "SETDESC Enter your password for: ${_my_key} (${_my_mail})\nGETPIN\n" | ${BIN_PINENTRY} 2> /dev/null | grep "D" | awk '{print $2}'
+	printf "SETDESC Enter your password for: %s (%s)\nGETPIN\n" "${_my_key}" "${_my_mail}" | ${BIN_PINENTRY} 2> /dev/null | grep "D" | awk '{print $2}'
 }
 
 
