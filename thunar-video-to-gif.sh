@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# Convert a video file to an animated gif.
+# Convert a video file to an animated gif (high quality mode).
 #
 # * Put this file into your home binary dir: ~/bin/
 # * Make it executable: chmod +x
@@ -17,12 +17,12 @@
 #
 #   Command:      ~/bin/thunar-video-to-gif.sh -f %f -t %n
 #   File Pattern: *
-#   Appear On:    Audio Files, Video Files
+#   Appear On:    Video Files
 #
 #
 # Usage:
 # -------------------------
-#   thunar-video-to-gif.sh -f <filename> [-c] [-w width(int)] [-h height(int)] [-t window-title]
+#   thunar-video-to-gif.sh -f <filename> [-c]
 #
 #     required:
 #      -f    input filename
@@ -31,14 +31,6 @@
 #      -c    no-gui, show console output (zenity not required)
 #            default is to show gui
 #
-#      -w    (gui) width of window (e.g.: -w 800)
-#            default is 800
-#
-#      -h    (gui) height of window (e.g.: -h 240)
-#            default is 240
-#
-#      -t    (gui) window title
-#            default is filename
 #
 # Note:
 # -------------------------
