@@ -8,7 +8,11 @@ I personally prefer thunar because of speed.
 
 If any of the actions don't work anymore (especially the upload ones), please report here, so I can fix it.
 
+---
 
+**Latest added action**: `thunar-video-to-gif.sh`
+
+---
 
 ## Actions
 
@@ -52,6 +56,26 @@ This action pops up a zenity-based window and displays encoding information for 
 | Command      | thunar-media-info.sh -f %f -t %n |
 | File pattern | *                              |
 | Appear on    | Audio files, Video files       |
+
+
+#### ![Thunar Convert Video to Gif](/icons/thunar-media-info.png) [thunar-video-to-gif.sh](thunar-video-to-gif.sh)
+[![Type](https://img.shields.io/badge/type-%2Fbin%2Fsh-red.svg)](https://en.wikipedia.org/?title=Bourne_shell) [![GUI](https://img.shields.io/badge/GUI-zenity-blue.svg)](https://help.gnome.org/users/zenity/stable/)  
+This action pops up a zenity-based window (or via `read` on the shell) asking for the final video width and creates a high quality gif from your input video.
+
+**High quality gif:** This is achieved by doing a two-way-run. The first run creates the color palette from the video and the second run creates the gif based on that palette.
+
+**Requirements:**  `ffmpeg`  
+**Optional:**  `zenity` for gui output  
+**Note:** Works for cli-only (`-c`) or via `zenity`-gui
+**Thunar settings:**  
+
+| name         | value                          |
+|--------------|--------------------------------|
+| Name         | Media info                     |
+| Command      | thunar-video-to-gif.sh -f %f   |
+| File pattern | *                              |
+| Appear on    | Video files                    |
+
 
 
 ---
