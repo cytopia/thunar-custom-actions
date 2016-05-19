@@ -74,7 +74,7 @@ if ! command -v gpg >/dev/null 2>&1 ; then
 fi
 
 # Check if pinentry-gtk-2 exists
-BIN_PINENTRY
+BIN_PINENTRY=""
 if [ "$(uname)" != "Darwin" ]; then
 	if ! command -v pinentry-gtk-2 >/dev/null 2>&1 ; then
 		echo "Error - 'pinentry-gtk-2' not found." 1>&2
@@ -94,6 +94,13 @@ if ! command -v zenity >/dev/null 2>&1 ; then
 	echo "Error - 'zenity' not found." 1>&2
 	exit 1
 fi
+
+getMailBySecKey() {
+	_sec="$1"
+	_mail="$(gpg --list-secret-keys | grep -A 1 "${_sec}" | tail -n1 | sed 's/uid[[:space:]]*//g')"
+
+	echo "${_mail}"
+}
 
 
 chooseRecipient () {
@@ -134,7 +141,9 @@ chooseSecret () {
 }
 
 readPassword () {
-    echo "GETPIN" | ${BIN_PINENTRY} 2> /dev/null | grep "D" | awk '{print $2}'
+	_my_key="$1"
+	_my_mail="$(getMailBySecKey "${_my_key}")"
+	printf "SETDESC Enter your password for: ${_my_key} (${_my_mail})\nGETPIN\n" | ${BIN_PINENTRY} 2> /dev/null | grep "D" | awk '{print $2}'
 }
 
 
@@ -158,9 +167,7 @@ fi
 # https://bugzilla.gnome.org/show_bug.cgi?id=698683
 u="$(echo "${u}" | awk '{split($0,a,"|"); print a[1]}')"
 
-
-
-p="$(readPassword)"
+p="$(readPassword "${u}")"
 if [ -z "${p}" ]; then
 	zenity --error --text="No Password specified."
 	exit 1
