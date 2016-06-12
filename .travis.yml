@@ -11,6 +11,7 @@ script:
   - shellcheck --shell=sh thunar-gpg-decrypt.sh
   - shellcheck --shell=sh thunar-gpg-encrypt.sh
   - shellcheck --shell=sh thunar-gpg-info.sh
+  - shellcheck --shell=sh thunar-gpg-sign.sh
   - shellcheck --shell=sh thunar-gpg-verify-signature.sh
   - shellcheck --shell=sh thunar-media-info.sh
   - shellcheck --shell=sh thunar-video-to-gif.sh

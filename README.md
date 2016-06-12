@@ -12,6 +12,7 @@ If any of the actions don't work anymore (especially the upload ones), please re
 
 **Latest added action**:
 
+* `thunar-gpg-sign.sh`
 * `thunar-gpg-verify-signature.sh`
 * `thunar-video-to-gif.sh`
 
@@ -129,6 +130,21 @@ This action pops up a terminal window for password entry and decrypts the file w
 | Command      | urxvtcd -e thunar-gpg-decrypt.sh -f %f |
 | File pattern | *                              |
 | Appear on    | Other files                    |
+
+
+#### ![Thunar Sign](/icons/thunar-gpg-info.png) [thunar-gpg-sign.sh](thunar-gpg-sign.sh)
+[![Type](https://img.shields.io/badge/type-%2Fbin%2Fsh-red.svg)](https://en.wikipedia.org/?title=Bourne_shell) [![GUI](https://img.shields.io/badge/GUI-zenity-blue.svg)](https://help.gnome.org/users/zenity/stable/)  
+This action pops up a zenity-based window, let's you choose from a list of your secret keys and creates an ascii-armored separate signature file.  
+**Requirements:**  `gpg` and `zenity`  
+**Thunar settings:**  
+
+| name         | value                          |
+|--------------|--------------------------------|
+| Name         | GPG Sign                       |
+| Command      | thunar-gpg-sign.sh -f %f       |
+| File pattern | *                              |
+| Appear on    | Other files                    |
+
 
 
 #### ![Thunar GPG Info](/icons/thunar-gpg-info.png) [thunar-gpg-info.sh](thunar-gpg-info.sh)
