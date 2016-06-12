@@ -10,7 +10,11 @@ If any of the actions don't work anymore (especially the upload ones), please re
 
 ---
 
-**Latest added action**: `thunar-video-to-gif.sh`
+**Latest added action**:
+
+* `thunar-gpg-verify-signature.sh`
+* `thunar-video-to-gif.sh`
+
 
 ---
 
@@ -137,6 +141,20 @@ This action pops up a zenity-based window and displays information about the enc
 |--------------|--------------------------------|
 | Name         | GPG Info                       |
 | Command      | thunar-gpg-info.sh -f %f       |
+| File pattern | *                              |
+| Appear on    | Other files                    |
+
+
+#### ![Thunar GPG Verify Signature](/icons/thunar-gpg-info.png) [thunar-gpg-verify-signature.sh](thunar-gpg-verify-signature.sh)
+[![Type](https://img.shields.io/badge/type-%2Fbin%2Fsh-red.svg)](https://en.wikipedia.org/?title=Bourne_shell) [![GUI](https://img.shields.io/badge/GUI-zenity-blue.svg)](https://help.gnome.org/users/zenity/stable/)  
+This action pops up a zenity-based window and displays verification information about the gpg signature.  
+**Requirements:**  `gpg` and `zenity`  
+**Thunar settings:**  
+
+| name         | value                          |
+|--------------|--------------------------------|
+| Name         | GPG Verify Signature           |
+| Command      | thunar-gpg-verify-signature.sh.sh -f %f |
 | File pattern | *                              |
 | Appear on    | Other files                    |
 
