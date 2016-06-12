@@ -71,7 +71,7 @@ This action pops up a zenity-based window (or via `read` on the shell) asking fo
 
 | name         | value                          |
 |--------------|--------------------------------|
-| Name         | Media info                     |
+| Name         | Video to Gif                   |
 | Command      | thunar-video-to-gif.sh -f %f   |
 | File pattern | *                              |
 | Appear on    | Video files                    |
