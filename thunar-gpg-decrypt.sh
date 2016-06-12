@@ -71,6 +71,10 @@ if ! command -v gpg >/dev/null 2>&1 ; then
 	exit 1
 fi
 
-$(which gpg) -o "${f}.decrypted" -d "${f}"
+
+# remove ".gpg" file extension if it exists
+output="$( echo "${f}" | sed 's/\.gpg$//g' )"
+
+$(which gpg) -o "${output}" -d "${f}"
 exit $?
 
