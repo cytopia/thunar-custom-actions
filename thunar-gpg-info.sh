@@ -84,7 +84,7 @@ Validate () {
 
 
 RecipientKey () {
-	candidates="$(gpg --list-secret-keys | grep ssb | awk '{print $2}' | awk '{print substr($0,7,8)}')"
+	candidates="$(gpg --list-secret-keys --keyid-format short | grep ssb | awk '{print $2}' | awk '{print substr($0,7,8)}')"
 
 	for i in $candidates
 	do
@@ -100,7 +100,7 @@ RecipientKey () {
 Recipient () {
 
 	key="${1}"
-	recipient="$(gpg --list-secret-keys \
+	recipient="$(gpg --list-secret-keys --keyid-format short \
               | grep -B 2 "${key}" \
               | grep uid \
 			  | awk '{print $2" "$3" "$4}')"

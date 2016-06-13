@@ -59,7 +59,7 @@ usage() {
 #
 getMailBySecKey() {
 	_sec="$1"
-	_mail="$(gpg --list-secret-keys | grep -A 1 "${_sec}" | tail -n1 | sed 's/uid[[:space:]]*//g')"
+	_mail="$(gpg --list-secret-keys --keyid-format short | grep -A 1 "${_sec}" | tail -n1 | sed 's/uid[[:space:]]*//g')"
 
 	echo "${_mail}"
 }
@@ -74,7 +74,7 @@ getMailBySecKey() {
 #
 chooseSecret () {
 
-	seckeys="$(gpg --list-secret-keys \
+	seckeys="$(gpg --list-secret-keys --keyid-format short \
 	  | grep -A 1 "^sec" \
 	  | sed -n -e "s:^sec *\([A-Za-z0-9]\+\)/\([A-F0-9]\+\) .*$:\1 \2:p" -e "s:^uid *\(.*\)$:\"\1\":p" \
 	  | tr '\n' ' ')"
