@@ -77,45 +77,145 @@ if ! command -v zenity >/dev/null 2>&1 ; then
 fi
 
 
-Validate () {
-	error="$(gpg --list-packets --list-only "${f}" 2> /dev/null)"
+################################################################################
+#
+# GPG INFO FUNCTIONS
+#
+################################################################################
+validate () {
+	_file="${1}"
+	error="$(gpg --list-packets --list-only "${_file}" 2> /dev/null)"
 	echo $?
 }
+getRecipientKey() {
+	_file="${1}"
 
+	gpg --list-packets --list-only "${_file}" 2>/dev/null | \
+		grep 'pubkey' | \
+		sed 's/.*keyid//g' | \
+		grep -oE '[A-Fa-f0-9]+'
+}
+getEncrypterKey() {
+	_file="${1}"
 
-RecipientKey () {
-	candidates="$(gpg --list-secret-keys | grep ssb | awk '{print $2}' | awk '{print substr($0,7,8)}')"
+	gpg --passphrase '' --list-packets --batch --yes "${_file}" 2>&1 | \
+		grep -oE '[[:space:]]+ID[[:space:]]+[A-Fa-f0-9]+' | \
+		sed 's/^[[:space:]]*ID[[:space:]]*//g'
+}
+################################################################################
+#
+# GET PUBLIC KEYS
+#
+################################################################################
+getNameByPubKey() {
+	_key="${1}"
+	if [ "${_key}" = "" ]; then
+		echo ""
+		return
+	fi
+	gpg --list-public-keys --keyid-format short "${_key}" 2>/dev/null | \
+		grep '^uid' | \
+		sed 's/^uid[[:space:]]*//g' | \
+		 sed 's/\s*<.*@.*>$//g'
+}
+getMailByPubKey() {
+	_key="${1}"
+	if [ "${_key}" = "" ]; then
+		echo ""
+		return
+	fi
+	gpg --list-public-keys --keyid-format short "${_key}" 2>/dev/null | \
+		grep '^uid' | \
+		sed 's/^uid[[:space:]]*//g' | \
+		grep -oE '<.+@.+>' | \
+		sed 's/<//g' | \
+		sed 's/>//g'
 
-	for i in $candidates
-	do
-		gpg --list-packets --list-only "${f}" | grep "${i}" >/dev/null 2>&1
-
-		if [ $? -eq 0 ]; then
-			echo "${i}"
-			return
-		fi
-	done
+}
+getBitByPubKey() {
+	_key="${1}"
+	if [ "${_key}" = "" ]; then
+		echo ""
+		return
+	fi
+	gpg --list-public-keys --keyid-format short "${_key}" 2>/dev/null | \
+		grep '^pub' | \
+		sed 's/^pub[[:space:]]*//g' | \
+		grep -oE '[0-9]+./' | \
+		grep -oE '[0-9]+'
 }
 
-Recipient () {
+################################################################################
+#
+# SECRET KEY FUNCTIONS
+#
+################################################################################
+getNameBySecKey() {
+	_key="${1}"
+	if [ "${_key}" = "" ]; then
+		echo ""
+		return
+	fi
+	gpg --list-secret-keys --keyid-format short "${_key}" 2>/dev/null | \
+		grep '^uid' | \
+		sed 's/^uid[[:space:]]*//g' | \
+		 sed 's/\s*<.*@.*>$//g'
+}
+getMailBySecKey() {
+	_key="${1}"
+	if [ "${_key}" = "" ]; then
+		echo ""
+		return
+	fi
+	gpg --list-secret-keys --keyid-format short "${_key}" 2>/dev/null | \
+		grep '^uid' | \
+		sed 's/^uid[[:space:]]*//g' | \
+		grep -oE '<.+@.+>' | \
+		sed 's/<//g' | \
+		sed 's/>//g'
 
-	key="${1}"
-	recipient="$(gpg --list-secret-keys \
-              | grep -B 2 "${key}" \
-              | grep uid \
-			  | awk '{print $2" "$3" "$4}')"
-
-	echo "${recipient}"
+}
+getBitBySecKey() {
+	_key="${1}"
+	if [ "${_key}" = "" ]; then
+		echo ""
+		return
+	fi
+	gpg --list-secret-keys --keyid-format short "${_key}" 2>/dev/null | \
+		grep '^sec' | \
+		sed 's/^sec[[:space:]]*//g' | \
+		grep -oE '[0-9]+./' | \
+		grep -oE '[0-9]+'
 }
 
 
 
-error="$(Validate)"
 
+error="$( validate "${f}" )"
+getEncrypterKey "${f}"
 if [ "$error" -eq "0" ]; then
-	recipientKey="$(RecipientKey)"
-	recipient="$(Recipient "${recipientKey}")"
-	zenity --info --no-markup --text="Encrypted for: ${recipientKey} ${recipient}"
+	encrypterKey="$( getEncrypterKey "${f}" )"
+	encrypterName="$( getNameBySecKey "${encrypterKey}" )"
+	encrypterMail="$( getMailBySecKey "${encrypterKey}" )"
+
+	recipientKey="$( getRecipientKey "${f}" )"
+	recipientName="$( getNameByPubKey "${recipientKey}" )"
+	recipientMail="$( getMailByPubKey "${recipientKey}" )"
+
+	output=""
+	output="${output}Encrypted by:\n"
+	output="${output}--------------------------------------------------\n"
+	output="${output}Name: ${encrypterName}\n"
+	output="${output}Mail: ${encrypterMail}\n"
+	output="${output}Key: ${encrypterKey}\n"
+	output="${output}\n"
+	output="${output}Encrypted for:\n"
+	output="${output}--------------------------------------------------\n"
+	output="${output}Name: ${recipientName}\n"
+	output="${output}Mail: ${recipientMail}\n"
+	output="${output}Key: ${recipientKey}\n"
+
+	zenity --info --text="${output}"
 	exit $?
 else
 	zenity --info --text="No valid gpg data found"
