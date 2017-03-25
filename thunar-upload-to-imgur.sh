@@ -115,37 +115,37 @@ fi
 
 TITLE='Uploading to Imgur...'$(basename "${f}")
 
-IMGUR_KEY="4907fcd89e761c6b07eeb8292d5a9b2a"
+IMGUR_CLIENT_ID="3e7a4deb7ac67da"
 TMPFILE=$(mktemp)
 
 [ ! -z "${w##*[!0-9]*}" ]	&& WIDTH=$w		|| WIDTH=350
 [ ! -z "${h##*[!0-9]*}" ]	&& HEIGHT=$h	|| HEIGHT=140
 [ -n "${t}" ]				&& TITLE="${t}"	|| TITLE="Uploading to imgur: $(basename "${f}")"
 
-curl -# -F "image"=@"$f" -o "${TMPFILE}" -F "key"=${IMGUR_KEY} http://imgur.com/api/upload.xml 2>&1 | gawk -v RS='\r' '{print $2; fflush("") }' | zenity --width="${WIDTH}" --height="${HEIGHT}" --progress --title="${TITLE}" --text="${TITLE}" --auto-close --time-remaining
+curl -# -F "image"=@"$f" -o "${TMPFILE}" -F title="${TITLE}" -H "Authorization: Client-ID ${IMGUR_CLIENT_ID}" https://api.imgur.com/3/upload.xml 2>&1 | gawk -v RS='\r' '{print $2; fflush("") }' | zenity --width="${WIDTH}" --height="${HEIGHT}" --progress --title="${TITLE}" --text="${TITLE}" --auto-close --time-remaining
 #curl -# -F "image"=@"$f" -F "key"="4907fcd89e761c6b07eeb8292d5a9b2a" http://imgur.com/api/upload.xml | grep -Eo "[0-9]{1,3}" | zenity --width=${WIDTH} --height=${HEIGHT} --progress --title="${TITLE}" --text="${TITLE}" --auto-close --time-remaining
 #stdbuf -oL tr $'\r' $'\n' | stdbuf -oL grep --line-buffered -Eo '([0-9]+)\.[0-9]%$' | zenity --width=${WIDTH} --height=${HEIGHT} --progress --title="${TITLE}" --text="${TITLE}" --auto-close --time-remaining
 
 ########################## gui output ###############################
 [ -n "${t}" ]				&& TITLE=$t		|| TITLE="Uploaded to imgur: $(basename "${f}")"
 
-#TEXT=$(curl -F "image"=@"$f" -F "key"="a3793a1cce95f32435bb002b92e0fa5e" http://imgur.com/api/upload.xml | sed -e "s/.*<imgur_page>//" | sed -e "s/<.*//")
-
 
 TEXT=$(cat "${TMPFILE}")
 rm "${TMPFILE}"
 
-#TEXT="$(curl -# -F "image"=@"${f}" -F "key=${IMGUR_KEY}" http://imgur.com/api/upload.xml)"
-TAG="$(echo "${TEXT}" | grep -Eo '<[a-z_]+>http' | sed -e "s/http//" | sed -e "s/<//" | sed -e "s/>//")"
-URL="$(echo "${TEXT}" | grep -Eo 'http[^<]+')"
-ZTEXT=""
-urls=($URL)
-tags=($TAG)
+#TAG="$(echo "${TEXT}" | grep -Eo '<[a-z_]+>http' | sed -e "s/http//" | sed -e "s/<//" | sed -e "s/>//")"
+#URL="$(echo "${TEXT}" | grep -Eo 'http[^<]+')"
+#ZTEXT=""
+#urls=($URL)
+#tags=($TAG)
 
-for ((i = 0; i < ${#urls[@]}; i++))
-do
-	ZTEXT="$ZTEXT${tags[$i]}' <a href=\"${urls[$i]}\">${urls[$i]}</a>\n"
-done
+URL="$(echo "${TEXT}" | grep -E -m 1 -o "<link>(.*)</link>" | sed -e 's,.*<link>\([^<]*\)</link>.*,\1,g')"
+ZTEXT="Direct URL: <a href=\"$URL\">$URL</a>"
+
+#for ((i = 0; i < ${#urls[@]}; i++))
+#do
+#	ZTEXT="$ZTEXT${tags[$i]}' <a href=\"${urls[$i]}\">${urls[$i]}</a>\n"
+#done
 zenity --width=${WIDTH} --height=${HEIGHT} --info --title "${TITLE}" --text="${ZTEXT}"
 exit $?
 
