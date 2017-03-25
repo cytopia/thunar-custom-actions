@@ -88,7 +88,7 @@ This action pops up a zenity-based window (or via `read` on the shell) asking fo
 ### Security
 
 #### ![Thunar Openssl Encrypt/Decrypt](/icons/thunar-gpg-encrypt.png) [thunar-openssl-encrypt-decrypt.sh](thunar-openssl-encrypt-decrypt.sh)
-[![Type](https://img.shields.io/badge/type-%2Fbin%2Fsh-red.svg)](https://en.wikipedia.org/?title=Bourne_shell) [![GUI](https://img.shields.io/badge/GUI-zenity-blue.svg)](https://help.gnome.org/users/zenity/stable/)  
+[![Type](https://img.shields.io/badge/type-bash-red.svg)](https://en.wikipedia.org/?title=Bourne_shell) [![GUI](https://img.shields.io/badge/GUI-zenity-blue.svg)](https://help.gnome.org/users/zenity/stable/)  
 This action will encrypt/decrypt a file based on openssl's symmetric encryption.  
 **Requirements:**  `openssl` and `zenity`  
 **Thunar settings:**  
