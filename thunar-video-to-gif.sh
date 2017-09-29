@@ -126,7 +126,8 @@ FILE_PALETTE="$(mktemp).png"
 if [ "${c}" = "yes" ]; then
 
 	while true; do
-		read -p "Enter output video width in pixel (integer): " VIDEO_WIDTH
+		# shellcheck disable=SC2039
+		read -r -p "Enter output video width in pixel (integer): " VIDEO_WIDTH
 
 		if ! isint "${VIDEO_WIDTH}"; then
 			echo "Please enter a valid integer"
