@@ -254,7 +254,7 @@ The equivilent thunar command would be:
 
 **Note about substitutions in Thunar**:
 ```bash
-%f    The path to the fisrt selected file
+%f    The path to the first selected file
 %F    The paths to all selected files
 %d    Directory containing the file that is passed in %f
 %D    Directory containing the files that are passed in %F
