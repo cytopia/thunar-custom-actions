@@ -41,8 +41,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 source $DIR/thunar-gpg-functions.sh
 
-checkCommandLineArg
-checkFileArg
+checkCommandLineArg "$@"
 checkBinaryReq
 
 
